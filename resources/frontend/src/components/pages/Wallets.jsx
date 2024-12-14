@@ -1,17 +1,18 @@
-import wallet from "../assets/images/wallet.png"
+import wallet from "../../assets/images/wallet.png"
 import {useState} from "react";
 
 
 const Wallets = () => {
     const [isVisible, setIsVisible] = useState(false)
 
-    const showModel = () => {
-        setIsVisible(true)
-    }
-
-    const hideModel = () => {
+    const showModel = (isOpen) => {
+        if(!isOpen){
+            setIsVisible(true)
+            return
+        }
         setIsVisible(false)
     }
+
     return(
         <>
             <div className="p-4 sm:ml-64">
@@ -21,7 +22,7 @@ const Wallets = () => {
                         <h3 className="font-bold text-2xl">Wallets Management</h3>
                     </div>
                     <div>
-                        <button onClick={showModel}
+                        <button onClick={() => showModel(isVisible)}
                                 className="flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 type="button">
                             Add Wallet
@@ -42,7 +43,7 @@ const Wallets = () => {
                                             </h3>
                                             <button type="button"
                                                     className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                    onClick={hideModel}>
+                                                    onClick={() => showModel(isVisible)}>
                                                 <svg className="w-3 h-3" aria-hidden="true"
                                                      xmlns="http://www.w3.org/2000/svg"
                                                      fill="none" viewBox="0 0 14 14">
