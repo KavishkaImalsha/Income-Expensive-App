@@ -9,7 +9,7 @@ const Dashboard = () => {
     return(
         <>
             <Routes>
-                <Route path='/' element={<MainDashboard/>}/>
+                <Route path='/main-dashboard' element={<MainDashboard/>}/>
                 <Route path='/wallets' element={<Wallets/>}/>
                 <Route path='/add-income' element={<AddIncome/>}/>
                 <Route path='/add-expenses' element={<AddExpenses/>}/>
