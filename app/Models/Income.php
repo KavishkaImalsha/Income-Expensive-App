@@ -4,16 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-class RegisteredUser extends Model
+;
+class Income extends Model
 {
     use HasFactory;
-    protected $table = 'registered_users';
+    protected $table = 'incomes';
 
     protected $fillable = [
-        'firstName',
-        'lastName',
-        'email',
-        'password'
+        'income_amount',
+        'income_category'
     ];
 }
