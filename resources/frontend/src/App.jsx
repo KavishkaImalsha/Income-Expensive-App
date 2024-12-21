@@ -9,14 +9,14 @@ import SignUp from "./components/pages/SignUp.jsx";
 const App = () => {
   return (
       <>
-          {/*<NavBar/>*/}
-          {/*<SideBar/>*/}
-          {/*<Dashboard/>*/}
+          <NavBar/>
+          <SideBar/>
+          <Dashboard/>
 
-          <Routes>
-              <Route path="/" element={<Login/>}/>
-              <Route path="/sign-up" element={<SignUp/>}/>
-          </Routes>
+          {/*<Routes>*/}
+          {/*    <Route path="/" element={<Login/>}/>*/}
+          {/*    <Route path="/sign-up" element={<SignUp/>}/>*/}
+          {/*</Routes>*/}
       </>
   )
 }
