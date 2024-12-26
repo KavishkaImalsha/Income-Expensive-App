@@ -37,4 +37,16 @@ class AddCategoryTest extends TestCase
         $this->assertDatabaseMissing('categories', $category);
     }
 
+    public function test_add_category_without_passing_category_type()
+    {
+        $category = Category::factory()->make(['category_type' => null])->toArray();
+
+        $response = $this->postJson('api/add-category', $category);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors([
+            'category_type'
+        ]);
+        $this->assertDatabaseMissing('categories', $category);
+    }
 }
