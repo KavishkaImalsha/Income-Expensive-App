@@ -24,4 +24,17 @@ class AddCategoryTest extends TestCase
         ]);
     }
 
+    public function test_add_category_without_passing_category_name()
+    {
+        $category = Category::factory()->make(['category_name' => null])->toArray();
+
+        $response = $this->postJson('api/add-category', $category);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors([
+            'category_name'
+        ]);
+        $this->assertDatabaseMissing('categories', $category);
+    }
+
 }
