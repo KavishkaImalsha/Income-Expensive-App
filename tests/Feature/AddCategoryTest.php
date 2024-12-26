@@ -1,0 +1,27 @@
+<?php
+
+
+use App\Models\Category;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class AddCategoryTest extends TestCase
+{
+    use RefreshDatabase;
+    public function test_add_category_database_save()
+    {
+        $category = Category::factory()->make()->toArray();
+
+        $response = $this->postJson('api/add-category', $category);
+
+        $response->assertStatus(200);
+        $response->assertSimilarJson([
+            'message' => 'Category is successfully added.'
+        ]);
+        $this->assertDatabaseHas('categories', [
+            'category_name' => $category['category_name'],
+            'category_type' => $category['category_type']
+        ]);
+    }
+
+}
