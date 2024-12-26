@@ -26,4 +26,14 @@ class IncomeFormRequest extends FormRequest
             'income_category' => ['required', 'string']
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'income_amount.required' => 'Please enter the income amount',
+            'income_amount.numeric' => 'Enter the numeric value for income amount',
+            'income_amount.min' => 'Income amount should be grater than 0',
+            'income_category.required' => 'please enter the income category'
+        ];
+    }
 }

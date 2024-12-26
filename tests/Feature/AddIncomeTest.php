@@ -31,4 +31,14 @@ class AddIncomeTest extends TestCase
             'income_category' => $income['income_category']
         ]);
     }
+
+    public function test_error_add_income_without_filling_income_amount()
+    {
+        $incomeWithoutAmount = Income::factory()->make(['income_amount' => null])->toArray();
+
+        $response = $this->postJson('api/add-income', $incomeWithoutAmount);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['income_amount' => 'Please enter the income amount']);
+    }
 }
