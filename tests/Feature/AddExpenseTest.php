@@ -22,7 +22,46 @@ class AddExpenseTest extends TestCase
             'expense_amount' => $expense['expense_amount'],
             'expense_category' => $expense['expense_category']
         ]);
-
     }
 
+    public function test_add_expense_without_passing_expense_amount()
+    {
+        $expenseWithoutAmount = Expense::factory()->make(['expense_amount' => null])->toArray();
+
+        $response = $this->postJson('api/add-expense', $expenseWithoutAmount);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors([
+            'expense_amount'
+        ]);
+        $this->assertDatabaseMissing('expenses', $expenseWithoutAmount);
+    }
+
+    public function test_add_expense_without_passing_expense_category()
+    {
+        $expenseWithoutCategory = Expense::factory()->make(['expense_category' => null])->toArray();
+
+        $response = $this->postJson('api/add-expense', $expenseWithoutCategory);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors([
+            'expense_category'
+        ]);
+        $this->assertDatabaseMissing('expenses', $expenseWithoutCategory);
+    }
+
+    public function test_add_expense_without_passing_any_data()
+    {
+        $expense = Expense::factory()->make(['expense_amount' => null, 'expense_category' => null])->toArray();
+
+        $response = $this->postJson('api/add-expense', $expense);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors([
+            'expense_amount',
+            'expense_category'
+        ]);
+        $this->assertDatabaseMissing('expenses', $expense);
+
+    }
 }
