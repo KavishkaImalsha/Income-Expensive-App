@@ -51,4 +51,18 @@ class AddIncomeTest extends TestCase
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['income_category' => 'please enter the income category']);
     }
+
+    public function test_error_add_income_without_passing_data()
+    {
+        $income = Income::factory()->make(['income_amount' => null, 'income_category' => null])->toArray();
+
+        $response = $this->postJson('api/add-income', $income);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors([
+            'income_amount',
+            'income_category'
+        ]);
+        $this->assertDatabaseMissing('incomes', $income);
+    }
 }
