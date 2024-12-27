@@ -5,16 +5,52 @@ import FormInputField from "./commonFields/FormInputField.jsx";
 import FormSelectInput from "./commonFields/FormSelectInput.jsx";
 import ModalCloseBtn from "./commonFields/ModalCloseBtn.jsx";
 import AddBtn from "./commonFields/AddBtn.jsx";
+import axios from "axios";
 
 const AddCategories = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
+    const [formData, setFormData] = useState({
+        'category_name' : "",
+        'category_type' : ""
+    })
+    const [message , setMessage] = useState({'message' : '', 'color' : ''})
 
+    const handleInputData = (event) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            [event.target.name] : event.target.value
+        }))
+    }
+
+    const handelFormData = async (event) => {
+        event.preventDefault()
+
+        try{
+            const response = await axios.post('http://127.0.0.1:8000/api/add-category', formData)
+            if(response.status === 200){
+                setMessage({
+                    'message': response.data.message,
+                    'color' : 'bg-green-400'
+                })
+                setFormData({
+                    "category_name": "",
+                    'category_type': ""
+                })
+            }
+        }catch (error) {
+            setMessage({
+                'message': error.response.data.message,
+                'color' : 'bg-red-400'
+            })
+        }
+    }
     const showModel = (isVisible) => {
         if(!isVisible){
             setIsModelVisible(true)
             return
         }
         setIsModelVisible(false)
+        setMessage({'message': '', 'color': ''})
     }
     return(
         <>
@@ -39,10 +75,13 @@ const AddCategories = () => {
                                             </h3>
                                             <ModalCloseBtn onClose={() => {showModel(true)}}/>
                                         </div>
-                                        <form className="p-4 md:p-5">
+                                        {message && <div className={`${message.color} my-2 mx-4 rounded`} >
+                                            <p className="text-center text-white">{message.message}</p>
+                                        </div>}
+                                        <form onSubmit={handelFormData} className="p-4 md:p-5">
                                             <div className="grid gap-4 mb-4 grid-cols-2">
-                                                <FormInputField inputName="categoryName" labelName="Category Name" type="text" placeHolder="Category Name"/>
-                                                <FormSelectInput labelName="Category Type" categories={["Income", "Expense"]}/>
+                                                <FormInputField inputName="category_name" labelName="Category Name" type="text" placeHolder="Category Name" value={formData.categoryName} onChange={handleInputData}/>
+                                                <FormSelectInput labelName="Category Type" categories={["Income", "Expense"]} value={formData.categoryType} onChange={handleInputData}/>
                                             </div>
                                             <FormSubmitBtn btnName="Add Category"/>
                                         </form>
@@ -56,5 +95,4 @@ const AddCategories = () => {
         </>
     )
 }
-
 export default AddCategories
