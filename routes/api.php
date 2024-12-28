@@ -11,3 +11,4 @@ Route::post('/add-expense', [ExpenseController::class, 'addExpense']);
 Route::post('/add-category', [CategoryController::class, 'addCategory']);
 
 Route::get('/get-categories', [CategoryController::class, 'getCategories']);
+Route::get('/edit-category/{category_id}', [CategoryController::class, 'editCategory']);
