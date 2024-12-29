@@ -6,6 +6,7 @@ import FormSelectInput from "./commonFields/FormSelectInput.jsx";
 import ModalCloseBtn from "./commonFields/ModalCloseBtn.jsx";
 import AddBtn from "./commonFields/AddBtn.jsx";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 const AddCategories = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
@@ -15,6 +16,7 @@ const AddCategories = () => {
     })
     const [message , setMessage] = useState({'message' : '', 'color' : ''})
     const [categories , setCategories] = useState({'categories' : [], 'loading' : true})
+    const [editCategory, setEditCategory] = useState({'editCategory' : [], 'loading' : true})
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -79,7 +81,7 @@ const AddCategories = () => {
                         <AddBtn btnName="Add Category" onClick={() => {showModel(false)}}/>
                         {isModelVisible && (
                             <div id="crud-modal" tabIndex="-1" aria-hidden="true"
-                                 className="flex justify-center backdrop-blur-sm overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                 className="flex justify-center backdrop-blur-sm overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                 <div className="relative p-4 w-full max-w-md max-h-full">
                                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                         <div
@@ -94,8 +96,8 @@ const AddCategories = () => {
                                         </div>}
                                         <form onSubmit={handelFormData} className="p-4 md:p-5">
                                             <div className="grid gap-4 mb-4 grid-cols-2">
-                                                <FormInputField inputName="category_name" labelName="Category Name" type="text" placeHolder="Category Name" value={formData.categoryName} onChange={handleInputData}/>
-                                                <FormSelectInput labelName="Category Type" categories={["Income", "Expense"]} value={formData.categoryType} onChange={handleInputData}/>
+                                                <FormInputField inputName="category_name" labelName="Category Name" type="text" placeHolder="Category Name" value={formData.category_name} onChange={handleInputData}/>
+                                                <FormSelectInput labelName="Category Type" categories={["Income", "Expense"]} value={formData.category_type} onChange={handleInputData}/>
                                             </div>
                                             <FormSubmitBtn btnName="Add Category"/>
                                         </form>
@@ -148,8 +150,8 @@ const AddCategories = () => {
                                             {category.category_type}
                                         </td>
                                         <td className="px-6 py-4">
-                                            <a href="#"
-                                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                            <Link to={`/edit-category/${category.id}`}
+                                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
                                         </td>
                                     </tr>
                                 )
