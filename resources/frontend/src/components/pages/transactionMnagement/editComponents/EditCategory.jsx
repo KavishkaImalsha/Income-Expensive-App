@@ -10,28 +10,37 @@ const EditCategory = () => {
     const id = useParams()
     const navigate = useNavigate()
 
-    const [category, setCategory] = useState({'categoryDetails' : [], 'loading' : true})
+    const [loading , setLoading] = useState(true)
+    const [formData, setFormData] = useState({'category_name' : '', 'category_type' : ''})
 
     useEffect(() => {
         const fetchCategory = async () => {
            const responseCategory = await axios.get(`http://127.0.0.1:8000/api/edit-category/${id.id}`)
             if(responseCategory.status === 200){
-                setCategory({
-                    'categoryDetails' : responseCategory.data,
-                    'loading': false
+                setFormData({
+                    'category_name' : responseCategory.data.data.category_name,
+                    'category_type' : responseCategory.data.data.category_type
                 })
+                setLoading(false)
             }
         }
         fetchCategory()
     }, []);
+
+    const handelFormData = (event) => {
+        setFormData((prevState) => ({
+            ...prevState,
+                [event.target.name] : event.target.value
+        }))
+    }
 
     const closeModel = () => {
         navigate('/add-categories')
     }
     return(
             <>
-                {category.loading ? <div>Loading....</div> :
-                    <div id="crud-modal" tabIndex="-1" aria-hidden="true"
+                {loading ? (<div>Loading....</div>) :
+                    (<div id="crud-modal" tabIndex="-1" aria-hidden="true"
                          className="flex justify-center backdrop-blur-sm overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <div className="relative p-4 w-full max-w-md max-h-full">
                             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -46,15 +55,15 @@ const EditCategory = () => {
                                     <div className="grid gap-4 mb-4 grid-cols-2">
                                         <FormInputField inputName="category_name" labelName="Category Name" type="text"
                                                         placeHolder="Category Name"
-                                                        value={category.categoryDetails.data.category_name} onChange=""/>
+                                                        value={formData.category_name} onChange={handelFormData}/>
                                         <FormSelectInput labelName="Category Type" categories={["Income", "Expense"]}
-                                                         value={category.categoryDetails.data.category_type} onChange=""/>
+                                                         value={formData.category_type} onChange={handelFormData}/>
                                     </div>
                                     <FormSubmitBtn btnName="Update Category"/>
                                 </form>
                             </div>
                         </div>
-                    </div>}
+                    </div>)}
             </>
     )
 }
