@@ -6,7 +6,7 @@ use App\Models\Category;
 
 class AddCategory
 {
-    public function __invoke($validatedRequest)
+    public function __invoke($validatedRequest): array
     {
         Category::create([
             'category_name' => $validatedRequest['category_name'],

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\getDatafromDatabase;
+namespace Tests\Feature\getDatafromDatabase\categories;
 
 use App\Models\Category;
 use Tests\TestCase;

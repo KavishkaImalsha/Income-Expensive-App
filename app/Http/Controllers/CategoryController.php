@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Action\CategoryActions\AddCategory;
+use App\Action\CategoryActions\UpdateCategory;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Container\Attributes\Log;
@@ -33,5 +34,12 @@ class CategoryController extends Controller
         return response()->json([
             "data" => $category
         ]);
+    }
+
+    public function updateCategory(CategoryRequest $request,UpdateCategory $updateCategory,$category_id): JsonResponse
+    {
+        $validateRequest = $request->validated();
+
+        return response()->json($updateCategory($validateRequest, $category_id));
     }
 }
