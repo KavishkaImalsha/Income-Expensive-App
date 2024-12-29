@@ -1,7 +1,6 @@
 import {useState} from "react";
 
 const FormInputField = ({inputName, type, labelName, placeHolder, value, onChange}) => {
-    console.log(value)
 
     return(
         <>

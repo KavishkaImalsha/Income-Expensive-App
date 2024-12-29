@@ -5,13 +5,16 @@ import {Route, Routes} from "react-router-dom";
 import Wallets from "./components/pages/Wallets.jsx";
 import Login from "./components/pages/Login.jsx";
 import SignUp from "./components/pages/SignUp.jsx";
+import MessageProvider from "./components/common/MessageContext.jsx";
 
 const App = () => {
   return (
       <>
           <NavBar/>
           <SideBar/>
-          <Dashboard/>
+          <MessageProvider>
+              <Dashboard/>
+          </MessageProvider>
 
           {/*<Routes>*/}
           {/*    <Route path="/" element={<Login/>}/>*/}

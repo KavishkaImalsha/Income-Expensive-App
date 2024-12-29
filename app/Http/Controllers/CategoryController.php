@@ -30,7 +30,6 @@ class CategoryController extends Controller
     public function editCategory($category_id): JsonResponse
     {
         $category = Category::find($category_id);
-        \Illuminate\Support\Facades\Log::info($category);
         return response()->json([
             "data" => $category
         ]);
