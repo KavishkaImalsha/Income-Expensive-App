@@ -115,7 +115,7 @@ const AddCategories = () => {
                         )}
                     </div>
                 </div>
-                {responseMessage && (<SuccessAlert responseMessage={responseMessage}/>)}
+                {responseMessage && (<SuccessAlert responseMessage={responseMessage} setResponseMessage={setResponseMessage}/>)}
                 {categories.loading ? (<LoadingSpining/>) :
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-2">
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

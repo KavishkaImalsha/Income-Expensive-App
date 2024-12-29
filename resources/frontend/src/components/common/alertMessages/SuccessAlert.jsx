@@ -1,18 +1,21 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {MessageContext} from "../MessageContext.jsx";
 
-const SuccessAlert = ({responseMessage}) => {
+const SuccessAlert = ({responseMessage, setResponseMessage}) => {
     const [isAlertVisible, setIsAlertVisible] = useState(true)
 
     //To auto close the alert
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsAlertVisible(false)
+            setResponseMessage("")
         }, 5000)
 
         return () => clearTimeout(timer)
     }, []);
     const closeAlert = () => {
         setIsAlertVisible(false)
+        setResponseMessage("")
     }
     return(
         <>
