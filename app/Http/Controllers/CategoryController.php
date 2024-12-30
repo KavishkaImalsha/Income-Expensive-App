@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Action\CategoryActions\AddCategory;
+use App\Action\CategoryActions\DeleteCategory;
 use App\Action\CategoryActions\UpdateCategory;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
@@ -40,5 +41,10 @@ class CategoryController extends Controller
         $validateRequest = $request->validated();
 
         return response()->json($updateCategory($validateRequest, $category_id));
+    }
+
+    public function deleteCategory($category_id, DeleteCategory $deleteCategory): JsonResponse
+    {
+        return response()->json($deleteCategory($category_id));
     }
 }

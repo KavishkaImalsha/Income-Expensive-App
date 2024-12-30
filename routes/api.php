@@ -14,3 +14,5 @@ Route::get('/get-categories', [CategoryController::class, 'getCategories']);
 Route::get('/edit-category/{category_id}', [CategoryController::class, 'editCategory']);
 
 Route::put('/update-category/{category_id}', [CategoryController::class, 'updateCategory']);
+
+Route::delete('/delete-category/{category_id}', [CategoryController::class, 'deleteCategory']);
