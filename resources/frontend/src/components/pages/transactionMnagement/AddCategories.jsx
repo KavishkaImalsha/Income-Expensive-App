@@ -13,7 +13,6 @@ import SuccessAlert from "../../common/alertMessages/SuccessAlert.jsx";
 
 const AddCategories = () => {
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
-    console.log(responseMessage)
     const [isModelVisible, setIsModelVisible] = useState(false)
     const [formData, setFormData] = useState({
         'category_name' : "",
@@ -23,17 +22,18 @@ const AddCategories = () => {
     const [categories , setCategories] = useState({'categories' : [], 'loading' : true})
 
     useEffect(() => {
-        const fetchCategories = async () => {
-            const categoriesResponse = await axios.get('http://127.0.0.1:8000/api/get-categories');
-            if(categoriesResponse.status === 200){
-                setCategories({
-                    'categories' : categoriesResponse.data.data,
-                    'loading' : false
-                })
-            }
-        }
         fetchCategories()
     }, []);
+
+    const fetchCategories = async () => {
+        const categoriesResponse = await axios.get('http://127.0.0.1:8000/api/get-categories');
+        if(categoriesResponse.status === 200){
+            setCategories({
+                'categories' : categoriesResponse.data.data,
+                'loading' : false
+            })
+        }
+    }
 
     const handleInputData = (event) => {
         setFormData((prevState) => ({
@@ -61,6 +61,14 @@ const AddCategories = () => {
                 'message': error.response.data.message,
                 'color' : 'bg-red-400'
             })
+        }
+    }
+
+    const deleteCategory = async ($category_id) => {
+        const deleteResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-category/${$category_id}`)
+        if(deleteResponse.status === 200){
+            setResponseMessage(deleteResponse.data.message)
+            fetchCategories()
         }
     }
     const showModel = (isVisible) => {
@@ -146,7 +154,10 @@ const AddCategories = () => {
                                         </td>
                                         <td className="px-6 py-4">
                                             <Link to={`/edit-category/${category.id}`}
-                                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
+                                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> |
+                                            <button
+                                            onClick={() => {deleteCategory(category.id)}}
+                                                className="mx-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
                                         </td>
                                     </tr>
                                 )
