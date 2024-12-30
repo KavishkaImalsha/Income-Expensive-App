@@ -10,6 +10,7 @@ import {Link} from "react-router-dom";
 import LoadingSpining from "../../common/LoadingSpining.jsx";
 import {MessageContext} from "../../common/MessageContext.jsx";
 import SuccessAlert from "../../common/alertMessages/SuccessAlert.jsx";
+import ErrorAlertWithDetails from "../../common/alertMessages/ErrorAlertWithDetails.jsx";
 
 const AddCategories = () => {
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
@@ -47,20 +48,15 @@ const AddCategories = () => {
         try{
             const response = await axios.post('http://127.0.0.1:8000/api/add-category', formData)
             if(response.status === 200){
-                setMessage({
-                    'message': response.data.message,
-                    'color' : 'bg-green-400'
-                })
                 setFormData({
                     "category_name": "",
                     'category_type': ""
                 })
+                showModel(true)
+                setResponseMessage(response.data.message)
             }
         }catch (error) {
-            setMessage({
-                'message': error.response.data.message,
-                'color' : 'bg-red-400'
-            })
+            setResponseMessage(error.response.data.errors)
         }
     }
 
@@ -74,11 +70,13 @@ const AddCategories = () => {
     const showModel = (isVisible) => {
         if(!isVisible){
             setIsModelVisible(true)
+            setResponseMessage("")
             return
         }
         setIsModelVisible(false)
+        setResponseMessage("")
         setMessage({'message': '', 'color': ''})
-        window.location.reload()
+        fetchCategories()
     }
     return(
         <>
@@ -107,9 +105,7 @@ const AddCategories = () => {
                                                 showModel(true)
                                             }}/>
                                         </div>
-                                        {message && <div className={`${message.color} my-2 mx-4 rounded`} >
-                                            <p className="text-center text-white">{message.message}</p>
-                                        </div>}
+                                        {responseMessage && (<ErrorAlertWithDetails responseMessage={responseMessage} setResponseMessage={setResponseMessage}/>)}
                                         <form onSubmit={handelFormData} className="p-4 md:p-5">
                                             <div className="grid gap-4 mb-4 grid-cols-2">
                                                 <FormInputField inputName="category_name" labelName="Category Name" type="text" placeHolder="Category Name" value={formData.category_name} onChange={handleInputData}/>
@@ -123,7 +119,7 @@ const AddCategories = () => {
                         )}
                     </div>
                 </div>
-                {responseMessage && (<SuccessAlert responseMessage={responseMessage} setResponseMessage={setResponseMessage}/>)}
+                {responseMessage && !isModelVisible && (<SuccessAlert responseMessage={responseMessage} setResponseMessage={setResponseMessage}/>)}
                 {categories.loading ? (<LoadingSpining/>) :
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-2">
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
