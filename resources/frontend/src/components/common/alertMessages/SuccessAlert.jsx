@@ -3,7 +3,6 @@ import {MessageContext} from "../MessageContext.jsx";
 
 const SuccessAlert = ({responseMessage, setResponseMessage}) => {
     const [isAlertVisible, setIsAlertVisible] = useState(true)
-    console.log(responseMessage)
 
     //To auto close the alert
     useEffect(() => {

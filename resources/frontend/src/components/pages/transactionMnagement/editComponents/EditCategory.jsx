@@ -71,7 +71,7 @@ const EditCategory = () => {
                                         <FormInputField inputName="category_name" labelName="Category Name" type="text"
                                                         placeHolder="Category Name"
                                                         value={formData.category_name} onChange={handelFormData}/>
-                                        <FormSelectInput labelName="Category Type" categories={["Income", "Expense"]}
+                                        <FormSelectInput labelName="Category Type" categories={["Income", "Expense"]} fieldName="category_type"
                                                          value={formData.category_type} onChange={handelFormData}/>
                                     </div>
                                     <FormSubmitBtn btnName="Update Category"/>

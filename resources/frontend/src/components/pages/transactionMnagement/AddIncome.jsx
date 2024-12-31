@@ -10,6 +10,9 @@ import {MessageContext} from "../../common/MessageContext.jsx";
 import SuccessAlert from "../../common/alertMessages/SuccessAlert.jsx";
 import LoadingSpining from "../../common/LoadingSpining.jsx";
 import {Link} from "react-router-dom";
+import TableHead from "../../common/table/TableHead.jsx";
+import TableThRow from "../../common/table/TableThRow.jsx";
+import TableTdRow from "../../common/table/TableTdRow.jsx";
 
 const AddIncome = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
@@ -37,9 +40,7 @@ const AddIncome = () => {
 
     const fetchAllIncomes = async () => {
         setAllIncomes(await axios.get('http://127.0.0.1:8000/api/get-incomes'))
-        console.log(allIncomes)
     }
-    console.log(allIncomes)
 
     const handelInputData = (event) => {
         setIncomeDetails((prevState) => ({
@@ -112,31 +113,13 @@ const AddIncome = () => {
                 {allIncomes.loading ? (<LoadingSpining/>) :
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-2">
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead
-                                className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" className="px-6 py-3">
-                                    Income Name
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Income Amount
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Action
-                                </th>
-                            </tr>
-                            </thead>
+                            <TableHead headings={["Income Name", "Income Amount", "Action"]}/>
                             <tbody>
                             {allIncomes.data.incomes.map((income) => {
                                 return (
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <th scope="row"
-                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {income.income_category}
-                                        </th>
-                                        <td className={`px-6 py-4'}`}>
-                                            {income.income_amount}
-                                        </td>
+                                    <tr key={income.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <TableThRow data={income.income_category}/>
+                                        <TableTdRow data={income.income_amount}/>
                                         <td className="px-6 py-4">
                                             <Link to={"#"}
                                                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> |

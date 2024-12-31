@@ -11,6 +11,9 @@ import LoadingSpining from "../../common/LoadingSpining.jsx";
 import {MessageContext} from "../../common/MessageContext.jsx";
 import SuccessAlert from "../../common/alertMessages/SuccessAlert.jsx";
 import ErrorAlertWithDetails from "../../common/alertMessages/ErrorAlertWithDetails.jsx";
+import TableHead from "../../common/table/TableHead.jsx";
+import TableThRow from "../../common/table/TableThRow.jsx";
+import TableActionButtons from "../../common/table/TableActionButtons.jsx";
 
 const AddCategories = () => {
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
@@ -123,38 +126,16 @@ const AddCategories = () => {
                 {categories.loading ? (<LoadingSpining/>) :
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-2">
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead
-                                className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" className="px-6 py-3">
-                                    Category Name
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Category Type
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Action
-                                </th>
-                            </tr>
-                            </thead>
+                            <TableHead headings={["Category Name", "Category Type", "Actions"]}/>
                             <tbody>
                             {categories.categories.map((category) => {
                                 return (
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <th scope="row"
-                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {category.category_name}
-                                        </th>
+                                    <tr key={category.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <TableThRow data={category.category_name}/>
                                         <td className={`px-6 py-4 ${category.category_type === 'Expense' ? 'text-red-500' : 'text-green-500'}`}>
                                             {category.category_type}
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <Link to={`/edit-category/${category.id}`}
-                                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> |
-                                            <button
-                                            onClick={() => {deleteCategory(category.id)}}
-                                                className="mx-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
-                                        </td>
+                                        <TableActionButtons id={category.id} click={() => {deleteCategory(category.id)}}/>
                                     </tr>
                                 )
                             })}
