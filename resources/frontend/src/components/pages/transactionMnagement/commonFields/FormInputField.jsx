@@ -12,6 +12,7 @@ const FormInputField = ({inputName, type, labelName, placeHolder, value, onChang
                        placeholder={placeHolder} required=""
                        value={value}
                        onChange={(event) => {onChange(event)}}
+                    autoComplete="off"
                 />
             </div>
         </>

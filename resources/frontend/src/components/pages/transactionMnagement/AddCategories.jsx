@@ -109,7 +109,7 @@ const AddCategories = () => {
                                         <form onSubmit={handelFormData} className="p-4 md:p-5">
                                             <div className="grid gap-4 mb-4 grid-cols-2">
                                                 <FormInputField inputName="category_name" labelName="Category Name" type="text" placeHolder="Category Name" value={formData.category_name} onChange={handleInputData}/>
-                                                <FormSelectInput labelName="Category Type" categories={["Income", "Expense"]} value={formData.category_type} onChange={handleInputData}/>
+                                                <FormSelectInput labelName="Category Type" fieldName="category_type" categories={["Income", "Expense"]} value={formData.category_type} onChange={handleInputData}/>
                                             </div>
                                             <FormSubmitBtn btnName="Add Category"/>
                                         </form>
