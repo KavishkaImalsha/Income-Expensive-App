@@ -8,11 +8,14 @@ import AddBtn from "./commonFields/AddBtn.jsx";
 import axios from "axios";
 import {MessageContext} from "../../common/MessageContext.jsx";
 import SuccessAlert from "../../common/alertMessages/SuccessAlert.jsx";
+import LoadingSpining from "../../common/LoadingSpining.jsx";
+import {Link} from "react-router-dom";
 
 const AddIncome = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
     const [incomeCategories, setIncomeCategories] = useState([])
     const [incomeDetails, setIncomeDetails] = useState({"income_amount" : null, "income_category" : ""})
+    const [allIncomes, setAllIncomes] = useState({"incomes" : [], "loading": true})
     const [incomes, setIncomes] = useState({"data" : [], "loading" : true})
 
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
@@ -29,7 +32,14 @@ const AddIncome = () => {
             }
         }
         getCategories()
+        fetchAllIncomes()
     }, []);
+
+    const fetchAllIncomes = async () => {
+        setAllIncomes(await axios.get('http://127.0.0.1:8000/api/get-incomes'))
+        console.log(allIncomes)
+    }
+    console.log(allIncomes)
 
     const handelInputData = (event) => {
         setIncomeDetails((prevState) => ({
@@ -49,6 +59,7 @@ const AddIncome = () => {
                 })
                 setResponseMessage(addIncomeResponse.data.message)
                 showModel(true)
+                fetchAllIncomes()
             }
         }catch (error){
             setResponseMessage(error.response.data.errors)
@@ -97,6 +108,48 @@ const AddIncome = () => {
                     </div>
                 </div>
                 {responseMessage && (<SuccessAlert responseMessage={responseMessage} setResponseMessage={setResponseMessage}/>)}
+
+                {allIncomes.loading ? (<LoadingSpining/>) :
+                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-2">
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead
+                                className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">
+                                    Income Name
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Income Amount
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Action
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {allIncomes.data.incomes.map((income) => {
+                                return (
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <th scope="row"
+                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {income.income_category}
+                                        </th>
+                                        <td className={`px-6 py-4'}`}>
+                                            {income.income_amount}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <Link to={"#"}
+                                                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> |
+                                            <button
+                                                className="mx-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
         </>
     )
