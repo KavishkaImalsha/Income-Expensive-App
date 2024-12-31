@@ -12,6 +12,7 @@ Route::post('/add-category', [CategoryController::class, 'addCategory']);
 
 Route::get('/get-categories', [CategoryController::class, 'getCategories']);
 Route::get('/edit-category/{category_id}', [CategoryController::class, 'editCategory']);
+Route::get('/get-incomes', [IncomeController::class, 'getIncomes']);
 
 Route::put('/update-category/{category_id}', [CategoryController::class, 'updateCategory']);
 

@@ -13,6 +13,7 @@ const AddIncome = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
     const [incomeCategories, setIncomeCategories] = useState([])
     const [incomeDetails, setIncomeDetails] = useState({"income_amount" : null, "income_category" : ""})
+    const [incomes, setIncomes] = useState({"data" : [], "loading" : true})
 
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
 
