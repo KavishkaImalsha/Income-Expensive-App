@@ -15,13 +15,13 @@ import TableThRow from "../../common/table/TableThRow.jsx";
 import TableTdRow from "../../common/table/TableTdRow.jsx";
 import HandelInputDataAction from "../../../actions/form/HandelInputDataAction.jsx";
 import ErrorAlertWithDetails from "../../common/alertMessages/ErrorAlertWithDetails.jsx";
+import ShowModel from "../../../actions/ShowModel.jsx";
 
 const AddIncome = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
     const [incomeCategories, setIncomeCategories] = useState([])
     const [incomeDetails, setIncomeDetails] = useState({"income_amount" : null, "income_category" : ""})
     const [allIncomes, setAllIncomes] = useState({"incomes" : [], "loading": true})
-    const [incomes, setIncomes] = useState({"data" : [], "loading" : true})
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
 
     useEffect(()=> {
@@ -67,14 +67,7 @@ const AddIncome = () => {
             fetchAllIncomes()
         }
     }
-    const showModel = (isVisible) => {
-        if(!isVisible){
-            setIsModelVisible(true)
-            setResponseMessage("")
-            return
-        }
-        setIsModelVisible(false)
-    }
+
     return(
         <>
             <div className="p-4 sm:ml-64">
@@ -84,7 +77,7 @@ const AddIncome = () => {
                         <h1 className="font-bold text-2xl mx-1">Income Management</h1>
                     </div>
                     <div>
-                        <AddBtn btnName="Add Income" onClick={() => {showModel(false)}}/>
+                        <AddBtn btnName="Add Income" onClick={() => {ShowModel(setIsModelVisible, setResponseMessage, false)}}/>
                         {isModelVisible && (
                             <div id="crud-modal" tabIndex="-1" aria-hidden="true"
                                  className="flex backdrop-blur-sm overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -95,7 +88,7 @@ const AddIncome = () => {
                                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                                                 Add Income Details
                                             </h3>
-                                            <ModalCloseBtn onClose={() => {showModel(true)}}/>
+                                            <ModalCloseBtn onClose={() => {ShowModel(setIsModelVisible, setResponseMessage, true)}}/>
                                         </div>
                                         {responseMessage && (<ErrorAlertWithDetails responseMessage={responseMessage} setResponseMessage={responseMessage}/>)}
                                         <form onSubmit={handelFormData} className="p-4 md:p-5">

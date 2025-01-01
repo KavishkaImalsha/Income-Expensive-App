@@ -15,6 +15,7 @@ import TableHead from "../../common/table/TableHead.jsx";
 import TableThRow from "../../common/table/TableThRow.jsx";
 import TableActionButtons from "../../common/table/TableActionButtons.jsx";
 import HandelInputDataAction from "../../../actions/form/HandelInputDataAction.jsx";
+import ShowModel from "../../../actions/ShowModel.jsx";
 
 const AddCategories = () => {
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
@@ -23,7 +24,6 @@ const AddCategories = () => {
         'category_name' : "",
         'category_type' : ""
     })
-    const [message , setMessage] = useState({'message' : '', 'color' : ''})
     const [categories , setCategories] = useState({'categories' : [], 'loading' : true})
 
     useEffect(() => {
@@ -64,17 +64,6 @@ const AddCategories = () => {
             fetchCategories()
         }
     }
-    const showModel = (isVisible) => {
-        if(!isVisible){
-            setIsModelVisible(true)
-            setResponseMessage("")
-            return
-        }
-        setIsModelVisible(false)
-        setResponseMessage("")
-        setMessage({'message': '', 'color': ''})
-        fetchCategories()
-    }
     return(
         <>
             <div className="p-4 sm:ml-64">
@@ -86,7 +75,7 @@ const AddCategories = () => {
                     </div>
                     <div>
                         <AddBtn btnName="Add Category" onClick={() => {
-                            showModel(false)
+                            ShowModel(setIsModelVisible, setResponseMessage, false)
                         }}/>
                         {isModelVisible && (
                             <div id="crud-modal" tabIndex="-1" aria-hidden="true"
@@ -99,7 +88,7 @@ const AddCategories = () => {
                                                 Add Category Details
                                             </h3>
                                             <ModalCloseBtn onClose={() => {
-                                                showModel(true)
+                                                ShowModel(setIsModelVisible, setResponseMessage, true)
                                             }}/>
                                         </div>
                                         {responseMessage && (<ErrorAlertWithDetails responseMessage={responseMessage} setResponseMessage={setResponseMessage}/>)}
