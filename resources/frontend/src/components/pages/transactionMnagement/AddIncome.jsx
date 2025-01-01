@@ -13,6 +13,7 @@ import {Link} from "react-router-dom";
 import TableHead from "../../common/table/TableHead.jsx";
 import TableThRow from "../../common/table/TableThRow.jsx";
 import TableTdRow from "../../common/table/TableTdRow.jsx";
+import HandelInputDataAction from "../../../actions/form/HandelInputDataAction.jsx";
 
 const AddIncome = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
@@ -40,13 +41,6 @@ const AddIncome = () => {
 
     const fetchAllIncomes = async () => {
         setAllIncomes(await axios.get('http://127.0.0.1:8000/api/get-incomes'))
-    }
-
-    const handelInputData = (event) => {
-        setIncomeDetails((prevState) => ({
-            ...prevState,
-            [event.target.name] : event.target.value
-        }))
     }
 
     const handelFormData =async (event) => {
@@ -97,8 +91,8 @@ const AddIncome = () => {
                                         </div>
                                         <form onSubmit={handelFormData} className="p-4 md:p-5">
                                             <div className="grid gap-4 mb-4 grid-cols-2">
-                                                <FormInputField inputName="income_amount" labelName="Income Amount" type="numner" placeHolder="Income Amount" value={incomeDetails.income_amount} onChange={handelInputData}/>
-                                                <FormSelectInput labelName="Category" fieldName="income_category" categories={incomeCategories} onChange={handelInputData}/>
+                                                <FormInputField inputName="income_amount" labelName="Income Amount" type="numner" placeHolder="Income Amount" value={incomeDetails.income_amount} onChange={HandelInputDataAction(setIncomeDetails)}/>
+                                                <FormSelectInput labelName="Category" fieldName="income_category" categories={incomeCategories} onChange={HandelInputDataAction(setIncomeDetails)}/>
                                             </div>
                                             <FormSubmitBtn btnName="Add Income"/>
                                         </form>

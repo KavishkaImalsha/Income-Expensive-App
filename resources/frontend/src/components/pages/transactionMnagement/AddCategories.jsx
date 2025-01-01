@@ -14,6 +14,7 @@ import ErrorAlertWithDetails from "../../common/alertMessages/ErrorAlertWithDeta
 import TableHead from "../../common/table/TableHead.jsx";
 import TableThRow from "../../common/table/TableThRow.jsx";
 import TableActionButtons from "../../common/table/TableActionButtons.jsx";
+import HandelInputDataAction from "../../../actions/form/HandelInputDataAction.jsx";
 
 const AddCategories = () => {
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
@@ -37,13 +38,6 @@ const AddCategories = () => {
                 'loading' : false
             })
         }
-    }
-
-    const handleInputData = (event) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [event.target.name] : event.target.value
-        }))
     }
 
     const handelFormData = async (event) => {
@@ -111,8 +105,8 @@ const AddCategories = () => {
                                         {responseMessage && (<ErrorAlertWithDetails responseMessage={responseMessage} setResponseMessage={setResponseMessage}/>)}
                                         <form onSubmit={handelFormData} className="p-4 md:p-5">
                                             <div className="grid gap-4 mb-4 grid-cols-2">
-                                                <FormInputField inputName="category_name" labelName="Category Name" type="text" placeHolder="Category Name" value={formData.category_name} onChange={handleInputData}/>
-                                                <FormSelectInput labelName="Category Type" fieldName="category_type" categories={["Income", "Expense"]} value={formData.category_type} onChange={handleInputData}/>
+                                                <FormInputField inputName="category_name" labelName="Category Name" type="text" placeHolder="Category Name" value={formData.category_name} onChange={HandelInputDataAction(setFormData)}/>
+                                                <FormSelectInput labelName="Category Type" fieldName="category_type" categories={["Income", "Expense"]} value={formData.category_type} onChange={HandelInputDataAction(setFormData)}/>
                                             </div>
                                             <FormSubmitBtn btnName="Add Category"/>
                                         </form>
