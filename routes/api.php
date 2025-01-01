@@ -22,3 +22,4 @@ Route::put('/update-income/{income_id}', [IncomeController::class, 'updateIncome
 
 Route::delete('/delete-category/{category_id}', [CategoryController::class, 'deleteCategory']);
 Route::delete('/delete-income/{income_id}', [IncomeController::class, 'deleteIncome']);
+Route::delete('/delete-expense/{expense_id}', [ExpenseController::class, 'deleteExpense']);
