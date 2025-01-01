@@ -9,7 +9,7 @@ const FormSelectInput = ({labelName, categories, value, onChange, fieldName}) =>
                         value={value}
                         onChange={(event) => {onChange(event)}}
                 >
-                    <option selected="" value="">Select category</option>
+                    <option>Select category</option>
                     {categories.map((category, index) => {
                         return <option key={index} value={category}>{category}</option>
                     })}

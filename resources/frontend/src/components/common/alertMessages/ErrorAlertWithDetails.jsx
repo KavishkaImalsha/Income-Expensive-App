@@ -11,10 +11,11 @@ const ErrorAlertWithDetails = ({responseMessage, setResponseMessage}) => {
                 <span className="sr-only">Danger</span>
                 <div>
                     <span className="font-medium">Ensure that these requirements are met:</span>
-                    <ul className="mt-1.5 list-disc list-inside">
-                        {responseMessage.category_name && (<li>{responseMessage.category_name[0]}</li>)}
-                        {responseMessage.category_type && (<li>{responseMessage.category_type[0]}</li>)}
-                    </ul>
+                    {Object.keys(responseMessage).map((key) => {
+                        return <ul className="mt-1.5 list-disc list-inside">
+                               {responseMessage[key]}
+                        </ul>
+                    })}
                 </div>
             </div>
         </>

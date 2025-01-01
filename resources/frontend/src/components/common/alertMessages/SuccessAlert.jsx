@@ -12,7 +12,7 @@ const SuccessAlert = ({responseMessage, setResponseMessage}) => {
         }, 5000)
 
         return () => clearTimeout(timer)
-    }, []);
+    }, [setResponseMessage]);
     const closeAlert = () => {
         setIsAlertVisible(false)
         setResponseMessage("")

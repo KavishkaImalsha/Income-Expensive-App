@@ -5,6 +5,7 @@ import AddIncome from "./pages/transactionMnagement/AddIncome.jsx";
 import AddExpenses from "./pages/transactionMnagement/AddExpenses.jsx";
 import AddCategories from "./pages/transactionMnagement/AddCategories.jsx";
 import EditCategory from "./pages/transactionMnagement/editComponents/EditCategory.jsx";
+import EditIncome from "./pages/transactionMnagement/editComponents/EditIncome.jsx";
 
 const Dashboard = () => {
     return(
@@ -16,6 +17,7 @@ const Dashboard = () => {
                 <Route path='/add-expenses' element={<AddExpenses/>}/>
                 <Route path='/add-categories' element={<AddCategories/>}/>
                 <Route path='/edit-category/:id' element={<EditCategory/>}/>
+                <Route path='/edit-income/:id' element={<EditIncome/>}/>
             </Routes>
         </>
     )

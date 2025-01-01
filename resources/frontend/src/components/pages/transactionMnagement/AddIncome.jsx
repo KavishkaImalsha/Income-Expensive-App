@@ -14,6 +14,7 @@ import TableHead from "../../common/table/TableHead.jsx";
 import TableThRow from "../../common/table/TableThRow.jsx";
 import TableTdRow from "../../common/table/TableTdRow.jsx";
 import HandelInputDataAction from "../../../actions/form/HandelInputDataAction.jsx";
+import ErrorAlertWithDetails from "../../common/alertMessages/ErrorAlertWithDetails.jsx";
 
 const AddIncome = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
@@ -21,11 +22,9 @@ const AddIncome = () => {
     const [incomeDetails, setIncomeDetails] = useState({"income_amount" : null, "income_category" : ""})
     const [allIncomes, setAllIncomes] = useState({"incomes" : [], "loading": true})
     const [incomes, setIncomes] = useState({"data" : [], "loading" : true})
-
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
 
     useEffect(()=> {
-        setResponseMessage("")
         const getCategories = async () => {
             const category = await axios.get('http://127.0.0.1:8000/api/get-categories')
 
@@ -60,9 +59,18 @@ const AddIncome = () => {
             setResponseMessage(error.response.data.errors)
         }
     }
+
+    const deleteIncome = async (income_id) => {
+        const deleteResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-income/${income_id}`)
+        if (deleteResponse.status === 200){
+            setResponseMessage(deleteResponse.data.message)
+            fetchAllIncomes()
+        }
+    }
     const showModel = (isVisible) => {
         if(!isVisible){
             setIsModelVisible(true)
+            setResponseMessage("")
             return
         }
         setIsModelVisible(false)
@@ -89,6 +97,7 @@ const AddIncome = () => {
                                             </h3>
                                             <ModalCloseBtn onClose={() => {showModel(true)}}/>
                                         </div>
+                                        {responseMessage && (<ErrorAlertWithDetails responseMessage={responseMessage} setResponseMessage={responseMessage}/>)}
                                         <form onSubmit={handelFormData} className="p-4 md:p-5">
                                             <div className="grid gap-4 mb-4 grid-cols-2">
                                                 <FormInputField inputName="income_amount" labelName="Income Amount" type="numner" placeHolder="Income Amount" value={incomeDetails.income_amount} onChange={HandelInputDataAction(setIncomeDetails)}/>
@@ -102,7 +111,7 @@ const AddIncome = () => {
                         )}
                     </div>
                 </div>
-                {responseMessage && (<SuccessAlert responseMessage={responseMessage} setResponseMessage={setResponseMessage}/>)}
+                {responseMessage && !isModelVisible &&(<SuccessAlert responseMessage={responseMessage} setResponseMessage={setResponseMessage}/>)}
 
                 {allIncomes.loading ? (<LoadingSpining/>) :
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-2">
@@ -115,9 +124,10 @@ const AddIncome = () => {
                                         <TableThRow data={income.income_category}/>
                                         <TableTdRow data={income.income_amount}/>
                                         <td className="px-6 py-4">
-                                            <Link to={"#"}
+                                            <Link to={`/edit-income/${income.id}`}
                                                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> |
                                             <button
+                                                onClick={() => {deleteIncome(income.id)}}
                                                 className="mx-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
                                         </td>
                                     </tr>
