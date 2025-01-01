@@ -6,8 +6,11 @@ use App\Action\ExpenseActions\AddExpense;
 use App\Action\ExpenseActions\DeleteExpense;
 use App\Action\ExpenseActions\EditExpense;
 use App\Action\ExpenseActions\GetExpenses;
+use App\Action\ExpenseActions\UpdateExpense;
 use App\Http\Requests\ExpenseRequest;
+use App\Models\Expense;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Request;
 
 class ExpenseController extends Controller
 {
@@ -26,6 +29,12 @@ class ExpenseController extends Controller
     public function editExpense(EditExpense $editExpense, $expense_id): JsonResponse
     {
         return response()->json($editExpense($expense_id));
+    }
+
+    public function updateExpense(ExpenseRequest $request, UpdateExpense $updateExpense, $expense_id): JsonResponse
+    {
+        $validateExpense = $request->validated();
+        return response()->json($updateExpense($validateExpense, $expense_id));
     }
 
     public function deleteExpense(DeleteExpense $deleteExpense, $expense_id): JsonResponse
