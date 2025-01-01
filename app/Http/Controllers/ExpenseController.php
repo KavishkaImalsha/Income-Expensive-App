@@ -16,4 +16,13 @@ class ExpenseController extends Controller
 
         return response()->json($addExpense($validateRequest));
     }
+
+    public function getExpenses(): \Illuminate\Http\JsonResponse
+    {
+        $expenses = Expense::all();
+
+        return response()->json([
+            "expenses" => $expenses
+        ]);
+    }
 }

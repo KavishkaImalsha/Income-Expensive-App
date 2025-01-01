@@ -14,6 +14,7 @@ Route::get('/get-categories', [CategoryController::class, 'getCategories']);
 Route::get('/edit-category/{category_id}', [CategoryController::class, 'editCategory']);
 Route::get('/get-incomes', [IncomeController::class, 'getIncomes']);
 Route::get('/edit-income/{income_id}', [IncomeController::class, 'editIncome']);
+Route::get('/get-expenses', [ExpenseController::class, 'getExpenses']);
 
 Route::put('/update-category/{category_id}', [CategoryController::class, 'updateCategory']);
 Route::put('/update-income/{income_id}', [IncomeController::class, 'updateIncome']);
