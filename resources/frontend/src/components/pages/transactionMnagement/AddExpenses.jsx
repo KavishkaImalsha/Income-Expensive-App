@@ -115,7 +115,7 @@ const AddExpenses = () => {
                                         <TableThRow data={expense.expense_category}/>
                                         <TableTdRow data={expense.expense_amount}/>
                                         <td className="px-6 py-4">
-                                            <Link to={"#"}
+                                            <Link to={`/edit-expense/${expense.id}`}
                                                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> |
                                             <button
                                                 onClick={() => {deleteExpense(expense.id)}}
