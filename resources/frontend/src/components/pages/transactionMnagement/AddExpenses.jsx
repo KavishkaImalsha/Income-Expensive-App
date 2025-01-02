@@ -41,7 +41,6 @@ const AddExpenses = () => {
          if(getExpenseResponse.status === 200){
              setExpenses(getExpenseResponse.data.expenses)
              setLoading(false)
-             fetchExpenses()
          }
     }
 
@@ -52,9 +51,18 @@ const AddExpenses = () => {
             if(submitResponse.status === 200){
                 setResponseMessage(submitResponse.data.message)
                 setIsModelVisible(false)
+                fetchExpenses()
             }
         }catch (error){
             setResponseMessage(error.response.data.errors)
+        }
+    }
+
+    const deleteExpense = async (expense_id) => {
+        const deleteExpenseResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-expense/${expense_id}`);
+        if(deleteExpenseResponse.status === 200){
+            setResponseMessage(deleteExpenseResponse.data.message)
+            fetchExpenses()
         }
     }
 
@@ -110,6 +118,7 @@ const AddExpenses = () => {
                                             <Link to={"#"}
                                                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> |
                                             <button
+                                                onClick={() => {deleteExpense(expense.id)}}
                                                 className="mx-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
                                         </td>
                                     </tr>
