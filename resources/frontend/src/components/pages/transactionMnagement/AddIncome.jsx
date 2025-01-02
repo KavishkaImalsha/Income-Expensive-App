@@ -52,7 +52,7 @@ const AddIncome = () => {
                     'income_category' : ""
                 })
                 setResponseMessage(addIncomeResponse.data.message)
-                showModel(true)
+                setIsModelVisible(false)
                 fetchAllIncomes()
             }
         }catch (error){

@@ -10,19 +10,24 @@ import HandelInputDataAction from "../../../actions/form/HandelInputDataAction.j
 import {MessageContext} from "../../common/MessageContext.jsx";
 import ShowModel from "../../../actions/ShowModel.jsx";
 import SuccessAlert from "../../common/alertMessages/SuccessAlert.jsx";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import ErrorAlertWithDetails from "../../common/alertMessages/ErrorAlertWithDetails.jsx";
+import LoadingSpining from "../../common/LoadingSpining.jsx";
+import TableHead from "../../common/table/TableHead.jsx";
+import TableThRow from "../../common/table/TableThRow.jsx";
+import TableTdRow from "../../common/table/TableTdRow.jsx";
 
 const AddExpenses = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
     const [loading, setLoading] = useState(true)
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
     const [expensesNames, setExpensesNames] = useState([])
-    const navigate = useNavigate()
     const [expense, setExpense] = useState({"expense_amount" : null, "expense_category" : null})
+    const [expenses, setExpenses] = useState([])
 
     useEffect(() => {
         fetchCategory()
+        fetchExpenses()
     }, []);
 
     const fetchCategory = async () => {
@@ -31,14 +36,22 @@ const AddExpenses = () => {
         setLoading(false)
     }
 
+    const fetchExpenses = async () => {
+        const getExpenseResponse = await axios.get('http://127.0.0.1:8000/api/get-expenses')
+         if(getExpenseResponse.status === 200){
+             setExpenses(getExpenseResponse.data.expenses)
+             setLoading(false)
+             fetchExpenses()
+         }
+    }
+
     const handelFormSubmit = async (event) => {
         event.preventDefault()
         try{
             const submitResponse = await axios.post('http://127.0.0.1:8000/api/add-expense', expense);
             if(submitResponse.status === 200){
                 setResponseMessage(submitResponse.data.message)
-                setIsModelVisible(true)
-                navigate('/add-expense')
+                setIsModelVisible(false)
             }
         }catch (error){
             setResponseMessage(error.response.data.errors)
@@ -83,6 +96,29 @@ const AddExpenses = () => {
                     </div>
                 </div>
                 {responseMessage && !isModelVisible && <SuccessAlert responseMessage={responseMessage} setResponseMessage={setResponseMessage}/>}
+                {loading ? (<LoadingSpining/>) :
+                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-2">
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <TableHead headings={["Expense Name", "Expense Amount", "Action"]}/>
+                            <tbody>
+                            {expenses.map((expense) => {
+                                return (
+                                    <tr key={expense.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <TableThRow data={expense.expense_category}/>
+                                        <TableTdRow data={expense.expense_amount}/>
+                                        <td className="px-6 py-4">
+                                            <Link to={"#"}
+                                                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> |
+                                            <button
+                                                className="mx-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
         </>
     )

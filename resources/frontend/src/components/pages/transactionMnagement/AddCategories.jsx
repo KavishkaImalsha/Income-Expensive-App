@@ -49,8 +49,9 @@ const AddCategories = () => {
                     "category_name": "",
                     'category_type': ""
                 })
-                showModel(true)
+                setIsModelVisible(false)
                 setResponseMessage(response.data.message)
+                fetchCategories()
             }
         }catch (error) {
             setResponseMessage(error.response.data.errors)
