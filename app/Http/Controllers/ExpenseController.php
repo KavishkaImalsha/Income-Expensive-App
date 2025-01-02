@@ -8,9 +8,7 @@ use App\Action\ExpenseActions\EditExpense;
 use App\Action\ExpenseActions\GetExpenses;
 use App\Action\ExpenseActions\UpdateExpense;
 use App\Http\Requests\ExpenseRequest;
-use App\Models\Expense;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Request;
 
 class ExpenseController extends Controller
 {
