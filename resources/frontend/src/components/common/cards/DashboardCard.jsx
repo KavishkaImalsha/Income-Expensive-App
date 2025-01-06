@@ -1,4 +1,11 @@
 const DashboardCard = ({image, title, textColor, amount}) => {
+    const formatAmount = (amount) => {
+        const number =  Number(amount).toFixed(2)
+        return new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }).format(number)
+    }
     return(
         <>
             <div
@@ -6,7 +13,7 @@ const DashboardCard = ({image, title, textColor, amount}) => {
                 <img src={image} className="w-12 h-12 m-auto text-gray-500 dark:text-gray-400 mb-3"
                      alt="image"/>
                 <h1 className="text-2xl text-center">{title}</h1>
-                <p className={`text-2xl font-bold text-center text-${textColor}-500`}>Rs: {amount}</p>
+                <p className={`text-2xl font-bold text-center text-${textColor}-500`}>Rs: {formatAmount(amount)}</p>
             </div>
         </>
     )

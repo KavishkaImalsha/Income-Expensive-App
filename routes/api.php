@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('/add-income', [IncomeController::class, 'addIncome']);
 Route::post('/add-expense', [ExpenseController::class, 'addExpense']);
 Route::post('/add-category', [CategoryController::class, 'addCategory']);
-Route::post('/get-month-income',[IncomeController::class, 'getMonthIncome']);
 
 Route::get('/get-categories', [CategoryController::class, 'getCategories']);
 Route::get('/edit-category/{category_id}', [CategoryController::class, 'editCategory']);
@@ -17,6 +16,7 @@ Route::get('/get-incomes', [IncomeController::class, 'getIncomes']);
 Route::get('/edit-income/{income_id}', [IncomeController::class, 'editIncome']);
 Route::get('/get-expenses', [ExpenseController::class, 'getExpenses']);
 Route::get('/edit-expense/{expense_id}', [ExpenseController::class, 'editExpense']);
+Route::get('/get-month-income',[IncomeController::class, 'getMonthIncome']);
 
 Route::put('/update-category/{category_id}', [CategoryController::class, 'updateCategory']);
 Route::put('/update-income/{income_id}', [IncomeController::class, 'updateIncome']);

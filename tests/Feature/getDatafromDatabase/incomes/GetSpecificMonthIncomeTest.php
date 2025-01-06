@@ -22,7 +22,7 @@ class GetSpecificMonthIncomeTest extends TestCase
         });
         $incomesTotal = $monthlyIncomes->sum("income_amount");
 
-        $response = $this->postJson('api/get-month-income');
+        $response = $this->getJson('api/get-month-income');
 
         $response->assertOk();
         $response->assertSimilarJson([
