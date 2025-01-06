@@ -7,11 +7,14 @@ import axios from "axios";
 const MainDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [monthlyTotalIncome, setMonthlyTotalIncome] = useState(null)
+    const [monthlyTotalExpense, setMonthlyTotalExpense] = useState(null)
 
     useEffect(() => {
         const fetchTotalIncome = async () => {
             const incomeAmountRes = await axios.get('http://127.0.0.1:8000/api/get-month-income');
+            const expenseAmountRes = await axios.get('http://127.0.0.1:8000/api/get-monthly-expense');
             setMonthlyTotalIncome(incomeAmountRes.data.total_income)
+            setMonthlyTotalExpense(expenseAmountRes.data.total_expense)
         }
         fetchTotalIncome()
         setLoading(false)
@@ -23,7 +26,7 @@ const MainDashboard = () => {
             {loading ? (<div><p>loading</p></div>) : (<div className="p-4 sm:ml-64 mt-12">
                 <div className="grid grid-cols-3 gap-2">
                     <DashboardCard image={incomeDashboard} title="Month Income" textColor="green" amount={monthlyTotalIncome}/>
-                    <DashboardCard image={expenseDashboard} title="Monthly Expense" textColor="red" amount={2500}/>
+                    <DashboardCard image={expenseDashboard} title="Monthly Expense" textColor="red" amount={monthlyTotalExpense}/>
                     <DashboardCard image={worthDashboard} title="Current Balance" textColor="blue" amount={100000}/>
                 </div>
             </div>)}
