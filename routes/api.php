@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/add-income', [IncomeController::class, 'addIncome']);
 Route::post('/add-expense', [ExpenseController::class, 'addExpense']);
 Route::post('/add-category', [CategoryController::class, 'addCategory']);
+Route::post('/get-month-income',[IncomeController::class, 'getMonthIncome']);
 
 Route::get('/get-categories', [CategoryController::class, 'getCategories']);
 Route::get('/edit-category/{category_id}', [CategoryController::class, 'editCategory']);

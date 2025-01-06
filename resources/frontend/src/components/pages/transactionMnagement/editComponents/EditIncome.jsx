@@ -70,7 +70,7 @@ const EditIncome = () => {
                             <div
                                 className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                    Add Income Details
+                                    Edit Income Details
                                 </h3>
                                 <ModalCloseBtn onClose={() => {
                                     closeModel()
@@ -86,7 +86,7 @@ const EditIncome = () => {
                                                      value={income.income_category}
                                                      onChange={HandelInputDataAction(setIncome)}/>
                                 </div>
-                                <FormSubmitBtn btnName="Add Income"/>
+                                <FormSubmitBtn btnName="Update Income"/>
                             </form>
                         </div>
                     </div>

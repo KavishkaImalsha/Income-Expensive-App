@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Action\IncomeActions\AddIncome;
 use App\Action\IncomeActions\DeleteIncome;
 use App\Action\IncomeActions\EditIncome;
+use App\Action\IncomeActions\GetCurrentMonthTotalIncome;
 use App\Action\IncomeActions\GetIncomes;
 use App\Action\IncomeActions\UpdateIncome;
 use App\Http\Requests\IncomeFormRequest;
@@ -43,5 +44,10 @@ class IncomeController extends Controller
     public function deleteIncome(DeleteIncome $deleteIncome, $income_id): JsonResponse
     {
         return response()->json($deleteIncome($income_id));
+    }
+
+    public function getMonthIncome(GetCurrentMonthTotalIncome $getCurrentMonthTotalIncome): JsonResponse
+    {
+        return response()->json($getCurrentMonthTotalIncome());
     }
 }
