@@ -47,4 +47,12 @@ class ExpenseController extends Controller
     {
         return response()->json($getMonthlyExpense());
     }
+
+    public function getCurrentMonthExpenses(){
+        $currentYear = now()->year;
+        $currentMonth = now()->month;
+
+        $currentMonthIncomes = Expense::whereYear('created_at', $currentYear)->whereMonth('created_at', $currentMonth)->get();
+        return response()->json(["expenses" => $currentMonthIncomes]);
+    }
 }

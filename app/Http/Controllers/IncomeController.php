@@ -56,7 +56,6 @@ class IncomeController extends Controller
         $currentMonth = now()->month;
 
         $currentMonthIncomes = Income::whereYear('created_at', $currentYear)->whereMonth('created_at', $currentMonth)->get();
-        Log::info($currentMonthIncomes);
         return response()->json(["incomes" => $currentMonthIncomes]);
     }
 }

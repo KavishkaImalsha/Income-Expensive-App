@@ -19,6 +19,7 @@ Route::get('/edit-expense/{expense_id}', [ExpenseController::class, 'editExpense
 Route::get('/get-month-income',[IncomeController::class, 'getMonthIncome']);
 Route::get('/get-monthly-expense', [ExpenseController::class, 'getMonthlyExpense']);
 Route::get('/get-current-month-incomes', [IncomeController::class, 'getCurrentMonthIncomes']);
+Route::get('/get-current-month-expense', [ExpenseController::class, 'getCurrentMonthExpenses']);
 
 Route::put('/update-category/{category_id}', [CategoryController::class, 'updateCategory']);
 Route::put('/update-income/{income_id}', [IncomeController::class, 'updateIncome']);

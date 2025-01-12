@@ -10,6 +10,7 @@ const MainDashboard = () => {
     const [monthlyTotalIncome, setMonthlyTotalIncome] = useState(null)
     const [currentMonthIncomes, setCurrentMonthIncomes] = useState([])
     const [monthlyTotalExpense, setMonthlyTotalExpense] = useState(null)
+    const [currentMonthExpense, setCurrentMonthExpenses] = useState([])
     const [title, setTitle] = useState("income")
 
     useEffect(() => {
@@ -17,7 +18,9 @@ const MainDashboard = () => {
             const incomeAmountRes = await axios.get('http://127.0.0.1:8000/api/get-month-income');
             const expenseAmountRes = await axios.get('http://127.0.0.1:8000/api/get-monthly-expense');
             const incomesRes = await axios.get('http://127.0.0.1:8000/api/get-current-month-incomes')
+            const expenseRes = await axios.get('http://127.0.0.1:8000/api/get-current-month-expense')
             setCurrentMonthIncomes(incomesRes.data.incomes)
+            setCurrentMonthExpenses(expenseRes.data.expenses)
             setMonthlyTotalIncome(incomeAmountRes.data.total_income)
             setMonthlyTotalExpense(expenseAmountRes.data.total_expense)
             setLoading(false)
@@ -49,7 +52,7 @@ const MainDashboard = () => {
                         </select>
                     </div>
 
-                    {title === "income" ? <DoughnutChart details={currentMonthIncomes}/> : <div>I am expense</div>
+                    {title === "income" ? <DoughnutChart details={currentMonthIncomes}/> : <DoughnutChart details={currentMonthExpense}/>
                     }
                 </div>
             </div>)}
