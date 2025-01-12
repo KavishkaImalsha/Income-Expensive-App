@@ -50,4 +50,13 @@ class IncomeController extends Controller
     {
         return response()->json($getCurrentMonthTotalIncome());
     }
+
+    public function getCurrentMonthIncomes(){
+        $currentYear = now()->year;
+        $currentMonth = now()->month;
+
+        $currentMonthIncomes = Income::whereYear('created_at', $currentYear)->whereMonth('created_at', $currentMonth)->get();
+        Log::info($currentMonthIncomes);
+        return response()->json(["incomes" => $currentMonthIncomes]);
+    }
 }
