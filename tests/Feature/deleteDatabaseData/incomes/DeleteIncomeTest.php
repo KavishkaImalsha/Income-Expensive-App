@@ -15,7 +15,9 @@ class DeleteIncomeTest extends TestCase
 
         $response->assertOk();
         $response->assertSimilarJson([
-            "message" => "Income is successfully deleted"
+            "message" => "Income is successfully deleted",
+            "income_category" => $income->income_category,
+            "income_amount" => $income->income_amount
         ]);
         $this->assertDatabaseMissing('incomes', [
             "id" => $income["id"],

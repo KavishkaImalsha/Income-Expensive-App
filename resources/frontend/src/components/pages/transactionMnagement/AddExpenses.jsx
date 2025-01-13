@@ -16,11 +16,13 @@ import LoadingSpining from "../../common/LoadingSpining.jsx";
 import TableHead from "../../common/table/TableHead.jsx";
 import TableThRow from "../../common/table/TableThRow.jsx";
 import TableTdRow from "../../common/table/TableTdRow.jsx";
+import {RecentActivitiesContext} from "../../contextStates/RecentActivitiesContext.jsx";
 
 const AddExpenses = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
     const [loading, setLoading] = useState(true)
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
+    const {addRecentActivity} = useContext(RecentActivitiesContext)
     const [expensesNames, setExpensesNames] = useState([])
     const [expense, setExpense] = useState({"expense_amount" : null, "expense_category" : null})
     const [expenses, setExpenses] = useState([])
@@ -51,6 +53,7 @@ const AddExpenses = () => {
             if(submitResponse.status === 200){
                 setResponseMessage(submitResponse.data.message)
                 setIsModelVisible(false)
+                addRecentActivity("Expense", `Add Rs: ${expense.expense_amount} to ${expense.expense_category} expense`)
                 fetchExpenses()
             }
         }catch (error){
@@ -62,6 +65,7 @@ const AddExpenses = () => {
         const deleteExpenseResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-expense/${expense_id}`);
         if(deleteExpenseResponse.status === 200){
             setResponseMessage(deleteExpenseResponse.data.message)
+            addRecentActivity("Expense", `Delete Rs: ${deleteExpenseResponse.data.expense_amount} from ${deleteExpenseResponse.data.expense_category} expense`)
             fetchExpenses()
         }
     }

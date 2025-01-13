@@ -8,6 +8,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {MessageContext} from "../../../common/MessageContext.jsx";
+import {RecentActivitiesContext} from "../../../contextStates/RecentActivitiesContext.jsx";
 
 const EditExpense = () => {
     const expense_id = useParams()
@@ -15,6 +16,7 @@ const EditExpense = () => {
     const [loading, setLoading] = useState(true)
     const [expense, setExpense] = useState({"expense_amount" : null, "expense_category" : null})
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
+    const {addRecentActivity} = useContext(RecentActivitiesContext)
     const [expensesNames, setExpensesNames] = useState([])
 
     useEffect(() => {
@@ -43,6 +45,7 @@ const EditExpense = () => {
 
         if(updateResponse.status === 200){
             setResponseMessage(updateResponse.data.message)
+            addRecentActivity("Expense", "Edit expense data")
             closeModel()
         }
     }

@@ -8,12 +8,13 @@ import FormSubmitBtn from "../commonFields/FormSubmitBtn.jsx";
 import LoadingSpining from "../../../common/LoadingSpining.jsx";
 import {useContext} from "react";
 import {MessageContext} from "../../../common/MessageContext.jsx";
+import {RecentActivitiesContext} from "../../../contextStates/RecentActivitiesContext.jsx";
 
 const EditCategory = () => {
     const id = useParams()
     const navigate = useNavigate()
     const {setResponseMessage} = useContext(MessageContext)
-
+    const {addRecentActivity} = useContext(RecentActivitiesContext)
     const [loading , setLoading] = useState(true)
     const [formData, setFormData] = useState({'category_name' : '', 'category_type' : ''})
 
@@ -43,6 +44,7 @@ const EditCategory = () => {
         const updateResponse = await axios.put(`http://127.0.0.1:8000/api/update-category/${id.id}`, formData);
         if (updateResponse.status === 200){
             setResponseMessage(updateResponse.data.message)
+            addRecentActivity(formData.category_type, `Edit ${formData.category_name} as ${formData.category_type}`)
         }
         navigate('/add-categories')
     }

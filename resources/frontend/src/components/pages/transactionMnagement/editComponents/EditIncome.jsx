@@ -9,6 +9,7 @@ import FormSelectInput from "../commonFields/FormSelectInput.jsx";
 import FormSubmitBtn from "../commonFields/FormSubmitBtn.jsx";
 import HandelInputDataAction from "../../../../actions/form/HandelInputDataAction.jsx";
 import {MessageContext} from "../../../common/MessageContext.jsx";
+import {RecentActivitiesContext} from "../../../contextStates/RecentActivitiesContext.jsx";
 
 const EditIncome = () => {
     const income_id = useParams()
@@ -17,6 +18,7 @@ const EditIncome = () => {
     const navigate = useNavigate()
     const [incomeCategories, setIncomeCategories] = useState([])
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
+    const {addRecentActivity} = useContext(RecentActivitiesContext)
 
     useEffect(() => {
         getCategories()
@@ -50,6 +52,7 @@ const EditIncome = () => {
         const submitResponse = await axios.put(`http://127.0.0.1:8000/api/update-income/${income_id.id}`, income);
         if (submitResponse.status === 200){
             setResponseMessage(submitResponse.data.message);
+            addRecentActivity("Income", "Edit income data")
             closeModel()
         }
 

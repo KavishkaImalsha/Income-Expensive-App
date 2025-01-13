@@ -16,9 +16,11 @@ import TableThRow from "../../common/table/TableThRow.jsx";
 import TableActionButtons from "../../common/table/TableActionButtons.jsx";
 import HandelInputDataAction from "../../../actions/form/HandelInputDataAction.jsx";
 import ShowModel from "../../../actions/ShowModel.jsx";
+import {RecentActivitiesContext} from "../../contextStates/RecentActivitiesContext.jsx";
 
 const AddCategories = () => {
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
+    const {addRecentActivity} = useContext(RecentActivitiesContext)
     const [isModelVisible, setIsModelVisible] = useState(false)
     const [formData, setFormData] = useState({
         'category_name' : "",
@@ -51,6 +53,7 @@ const AddCategories = () => {
                 })
                 setIsModelVisible(false)
                 setResponseMessage(response.data.message)
+                addRecentActivity(formData.category_type, `Add ${formData.category_name} as ${formData.category_type} category type`)
                 fetchCategories()
             }
         }catch (error) {
@@ -62,6 +65,7 @@ const AddCategories = () => {
         const deleteResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-category/${$category_id}`)
         if(deleteResponse.status === 200){
             setResponseMessage(deleteResponse.data.message)
+            addRecentActivity(deleteResponse.data.category_type, `Delete ${deleteResponse.data.category_name} from ${deleteResponse.data.category_type}`)
             fetchCategories()
         }
     }

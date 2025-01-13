@@ -12,7 +12,9 @@ class DeleteIncome
         $income->delete();
 
         return [
-            "message" => "Income is successfully deleted"
+            "message" => "Income is successfully deleted",
+            "income_category" => $income->income_category,
+            "income_amount" => $income->income_amount
         ];
     }
 }

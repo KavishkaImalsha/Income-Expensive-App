@@ -6,15 +6,18 @@ import Wallets from "./components/pages/Wallets.jsx";
 import Login from "./components/pages/Login.jsx";
 import SignUp from "./components/pages/SignUp.jsx";
 import MessageProvider from "./components/common/MessageContext.jsx";
+import {RecentActivitiesProvider} from "./components/contextStates/RecentActivitiesContext.jsx";
 
 const App = () => {
   return (
       <>
           <NavBar/>
           <SideBar/>
-          <MessageProvider>
-              <Dashboard/>
-          </MessageProvider>
+          <RecentActivitiesProvider>
+              <MessageProvider>
+                  <Dashboard/>
+              </MessageProvider>
+          </RecentActivitiesProvider>
 
           {/*<Routes>*/}
           {/*    <Route path="/" element={<Login/>}/>*/}

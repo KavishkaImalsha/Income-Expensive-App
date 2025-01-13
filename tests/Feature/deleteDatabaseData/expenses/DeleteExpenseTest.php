@@ -19,7 +19,9 @@ class DeleteExpenseTest extends TestCase
 
         $response->assertOk();
         $response->assertSimilarJson([
-            "message" => "Expense is successfully deleted"
+            "message" => "Expense is successfully deleted",
+            "expense_category" => $expense->expense_category,
+            "expense_amount" => $expense->expense_amount
         ]);
         $this->assertDatabaseMissing('expenses', [
             "expense_amount" => $expense["expense_amount"],
