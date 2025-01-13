@@ -13,14 +13,14 @@ class GetCurrentMonthIncomesTest extends TestCase
         $incomes = Income::factory()->count(5)->create();
         $currentYear = now()->year;
         $currentMonth = now()->month;
-        $CurrentmonthIncomes = $incomes->filter(function ($income) use ($currentYear, $currentMonth) {
+        $currentMonthIncomes = $incomes->filter(function ($income) use ($currentYear, $currentMonth) {
             return $income->created_at->year === $currentYear && $income->created_at->month === $currentMonth;
         });
 
         $response = $this->getJson('api/get-current-month-incomes');
         $response->assertOk();
-        $response->assertJsonSimilar([
-            "incomes" => $CurrentmonthIncomes
+        $response->assertJson([
+            "incomes" => $currentMonthIncomes->toArray()
         ]);
     }
 }

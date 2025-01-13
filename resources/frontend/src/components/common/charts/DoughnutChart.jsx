@@ -41,7 +41,7 @@ const DoughnutChart = ({details}) => {
     }
     return(
         <>
-            <div className="w-[80%] h-[80%] m-auto">
+            <div className="w-[350px] h-[350px] m-auto">
                 <Doughnut data={chartData}/>
             </div>
         </>
