@@ -2,11 +2,13 @@ import incomeDashboard from "../../assets/images/incomeDashbord.png";
 import expenseDashboard from "../../assets/images/expenseDashboard.png";
 import worthDashboard from "../../assets/images/worthDashboard.png";
 import DashboardCard from "../common/cards/DashboardCard.jsx";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import DoughnutChart from "../common/charts/DoughnutChart.jsx";
 import LoadingSpining from "../common/LoadingSpining.jsx";
+import {RecentActivitiesContext} from "../contextStates/RecentActivitiesContext.jsx";
 const MainDashboard = () => {
+    const {recentActivities} = useContext(RecentActivitiesContext)
     const [loading, setLoading] = useState(true);
     const [monthlyTotalIncome, setMonthlyTotalIncome] = useState(null)
     const [currentMonthIncomes, setCurrentMonthIncomes] = useState([])
@@ -57,8 +59,22 @@ const MainDashboard = () => {
                         {title === "income" ? <DoughnutChart details={currentMonthIncomes}/> : <DoughnutChart details={currentMonthExpense}/>
                         }
                     </div>
-                    <div>
-                        <h1 className="font-poppins border border-1 shadow-lg rounded-lg p-5 text-xl">Recent Activities</h1>
+                    <div className="border border-1 shadow-lg rounded-lg p-5 font-poppins">
+                        <h1 className="text-xl">Recent Activities</h1>
+                        {recentActivities.map((activity, index) => {
+                            const date = new Date(activity.timestamp)
+                            const formatedDate = date.toLocaleDateString()
+                            const formatedTime = date.toLocaleTimeString()
+                            return(
+                                <div key={index} className="border-b-2 p-3 my-2">
+                                    <p className="text-sm">{activity.description}</p>
+                                    <div className="flex justify-between">
+                                        <p className={`${activity.type === "Income" ? "text-green-500" : "text-red-500"} text-sm`}>{activity.type}</p>
+                                        <p className="text-sm text-gray-500">{`${formatedDate}, ${formatedTime}`}</p>
+                                    </div>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
             </div>)}

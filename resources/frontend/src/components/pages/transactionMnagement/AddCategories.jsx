@@ -65,7 +65,6 @@ const AddCategories = () => {
         const deleteResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-category/${$category_id}`)
         if(deleteResponse.status === 200){
             setResponseMessage(deleteResponse.data.message)
-            addRecentActivity(deleteResponse.data.category_type, `Delete ${deleteResponse.data.category_name} from ${deleteResponse.data.category_type}`)
             fetchCategories()
         }
     }
