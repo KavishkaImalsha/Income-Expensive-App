@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class RegisteredUser extends Model
 {
     use HasFactory;
-    protected $table = 'registered_users';
+    protected $table = 'registered_user';
+    protected $primaryKey = 'uuid';
+   public $incrementing = false;
 
     protected $fillable = [
+        'uuid',
         'firstName',
         'lastName',
         'email',

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\RegisteredUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\RegisteredUser>
@@ -15,15 +16,14 @@ class RegisteredUserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-
     protected $model = RegisteredUser::class;
     public function definition(): array
     {
         return [
-            'firstName' => $this->faker->firstName(),
-            'lastName' => $this->faker->lastName(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'password' => $this->faker->password(),
+            'firstName' => $this->faker->firstName,
+            'lastName' => $this->faker->lastName,
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => $this->faker->unique()->password(8)
         ];
     }
 }
