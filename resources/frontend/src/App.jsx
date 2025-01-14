@@ -11,18 +11,17 @@ import {RecentActivitiesProvider} from "./components/contextStates/RecentActivit
 const App = () => {
   return (
       <>
-          <NavBar/>
-          <SideBar/>
-          <RecentActivitiesProvider>
-              <MessageProvider>
-                  <Dashboard/>
-              </MessageProvider>
-          </RecentActivitiesProvider>
-
-          {/*<Routes>*/}
-          {/*    <Route path="/" element={<Login/>}/>*/}
-          {/*    <Route path="/sign-up" element={<SignUp/>}/>*/}
-          {/*</Routes>*/}
+          {/*<NavBar/>*/}
+          {/*<SideBar/>*/}
+          <Routes>
+              <Route path="/" element={<Login/>}/>
+              <Route path="/sign-up" element={<SignUp/>}/>
+          </Routes>
+          {/*<RecentActivitiesProvider>*/}
+          {/*    <MessageProvider>*/}
+          {/*        <Dashboard/>*/}
+          {/*    </MessageProvider>*/}
+          {/*</RecentActivitiesProvider>*/}
       </>
   )
 }

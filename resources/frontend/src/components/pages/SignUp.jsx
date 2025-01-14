@@ -1,8 +1,15 @@
 import {Link} from "react-router-dom";
 import InputLayout from "../common/formFields/InputLayout.jsx";
 import ButtonLayout from "../common/formFields/ButtonLayout.jsx";
+import {useState} from "react";
+import HandelInputDataAction from "../../actions/form/HandelInputDataAction.jsx";
 
 const SignUp = () => {
+    const [userDetails, setUserDetails] = useState({firstName : "", lastName : "", email : "", password : ""})
+
+    const submitUserRegForm = async (event) => {
+        event.preventDefault()
+    }
     return(
         <>
             <div className="h-screen w-full bg-[url('/public/images/signup_bg.png')] bg-no-repeat bg-cover">
@@ -15,13 +22,13 @@ const SignUp = () => {
                                 Create An Account
                             </h1>
                             <form className="space-y-4 md:space-y-6" action="#">
-                                <InputLayout type="text" lableName="First Name" inputName="firstName" placeholder="First Name"/>
+                                <InputLayout type="text" lableName="First Name" inputName="firstName" placeholder="First Name" onChange={HandelInputDataAction(setUserDetails)}/>
 
-                                <InputLayout type="text" lableName="Last Name" inputName="lastName" placeholder="Last Name"/>
+                                <InputLayout type="text" lableName="Last Name" inputName="lastName" placeholder="Last Name" onChange={HandelInputDataAction(setUserDetails)}/>
 
-                                <InputLayout type="email" lableName="Your email" inputName="email" placeholder="name@company.com"/>
+                                <InputLayout type="email" lableName="Your email" inputName="email" placeholder="name@company.com" onChange={HandelInputDataAction(setUserDetails)}/>
 
-                                <InputLayout type="password" lableName="Password" inputName="password" placeholder="••••••••"/>
+                                <InputLayout type="password" lableName="Password" inputName="password" placeholder="••••••••" onChange={HandelInputDataAction(setUserDetails)}/>
 
                                 <ButtonLayout type="submit" btnName="Sign Up"/>
 
