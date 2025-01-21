@@ -10,14 +10,13 @@ class UserRegistrationAction
 {
     public function __invoke($validateRequest)
     {
-        $encryptEmail = Hash::make($validateRequest["email"]);
         $hashedPassword = Hash::make($validateRequest["password"]);
 
         RegisteredUser::create([
             'uuid' => (string) Str::uuid(),
             "firstName" => $validateRequest["firstName"],
             'lastName' => $validateRequest["lastName"],
-            'email' => $encryptEmail,
+            'email' => $validateRequest["email"],
             'password' => $hashedPassword
         ]);
 

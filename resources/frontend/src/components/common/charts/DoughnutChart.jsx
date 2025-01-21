@@ -1,5 +1,4 @@
 import React from "react";
-import { TEChart } from "tw-elements-react";
 import {Doughnut} from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
@@ -14,18 +13,18 @@ const DoughnutChart = ({details}) => {
     const keys = details.length > 0 ? Object.keys(details[0]) : []
     const amountTitle = keys[1]
     const categoryTitle = keys[2]
-    
+
     const incomesDetails = details.reduce((acc, income) => {
         if(!acc[income[categoryTitle]]){
-            
+
             acc[income[categoryTitle]] = income[amountTitle]
             return acc
         }
-        
+
         acc[income[categoryTitle]] = acc[income[categoryTitle]] + income[amountTitle]
         return acc
     }, {})
-    
+
     const chartData = {
         labels : Object.keys(incomesDetails).map(key => key),
         datasets : [
