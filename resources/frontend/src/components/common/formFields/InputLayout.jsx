@@ -9,6 +9,7 @@ const InputLayout = ({type, inputName, lableName, placeholder, onChange, value})
                        onChange={(event) => {onChange(event)}}
                        placeholder={placeholder} required=""
                         value={value}
+                       autoComplete="off"
                 />
             </div>
         </>

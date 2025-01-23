@@ -10,19 +10,12 @@ import MessageProvider from "./components/common/MessageContext.jsx";
 const App = () => {
   return (
       <>
-          {/*<NavBar/>*/}
-          {/*<SideBar/>*/}
           <MessageProvider>
               <Routes>
-                  <Route path="/" element={<Login/>}/>
+                  <Route path="/login" element={<Login/>}/>
                   <Route path="/sign-up" element={<SignUp/>}/>
               </Routes>
           </MessageProvider>
-          {/*<RecentActivitiesProvider>*/}
-          {/*    <MessageProvider>*/}
-          {/*        <Dashboard/>*/}
-          {/*    </MessageProvider>*/}
-          {/*</RecentActivitiesProvider>*/}
       </>
   )
 }

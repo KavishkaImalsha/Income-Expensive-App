@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IncomeController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/add-registered-user', [RegisteredUserController::class, 'addRegisteredUser']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/add-income', [IncomeController::class, 'addIncome']);
 Route::post('/add-expense', [ExpenseController::class, 'addExpense']);

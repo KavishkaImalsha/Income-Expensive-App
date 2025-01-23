@@ -28,6 +28,7 @@ const SignUp = () => {
                     password: ""
                 })
                 toast.success(userRegResponse.data.message)
+                setResponseMessage("")
             }
         }catch(error){
             setResponseMessage(error.response.data.errors)
