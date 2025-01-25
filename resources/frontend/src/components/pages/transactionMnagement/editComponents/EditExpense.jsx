@@ -9,6 +9,7 @@ import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {MessageContext} from "../../../common/MessageContext.jsx";
 import {RecentActivitiesContext} from "../../../contextStates/RecentActivitiesContext.jsx";
+import customApi from "../../../api/customApi.jsx";
 
 const EditExpense = () => {
     const expense_id = useParams()
@@ -25,11 +26,11 @@ const EditExpense = () => {
     }, []);
 
     const fetchCategory = async () => {
-        const category = await axios.get('http://127.0.0.1:8000/api/get-categories');
+        const category = await customApi.get('http://127.0.0.1:8000/api/get-categories');
         setExpensesNames(category.data.data.filter(category => category.category_type === "Expense").map(expense => expense.category_name))
     }
     const fetchExpense = async () => {
-        const expenseResponse = await axios.get(`http://127.0.0.1:8000/api/edit-expense/${expense_id.id}`)
+        const expenseResponse = await customApi.get(`http://127.0.0.1:8000/api/edit-expense/${expense_id.id}`)
         if(expenseResponse.status === 200){
             setExpense({
                 "expense_amount" : expenseResponse.data.expense.expense_amount,
@@ -41,7 +42,7 @@ const EditExpense = () => {
 
     const updateExpense = async (event) => {
         event.preventDefault()
-        const updateResponse = await axios.put(`http://127.0.0.1:8000/api/update-expense/${expense_id.id}`, expense);
+        const updateResponse = await customApi.put(`http://127.0.0.1:8000/api/update-expense/${expense_id.id}`, expense);
 
         if(updateResponse.status === 200){
             setResponseMessage(updateResponse.data.message)
@@ -51,7 +52,7 @@ const EditExpense = () => {
     }
 
     const closeModel = () => {
-        navigate('/add-expenses')
+        navigate('/dashboard/add-expenses')
     }
     return(
         <>

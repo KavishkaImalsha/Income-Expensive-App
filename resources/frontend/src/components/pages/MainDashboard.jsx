@@ -7,6 +7,7 @@ import axios from "axios";
 import DoughnutChart from "../common/charts/DoughnutChart.jsx";
 import LoadingSpining from "../common/LoadingSpining.jsx";
 import {RecentActivitiesContext} from "../contextStates/RecentActivitiesContext.jsx";
+import customApi from "../api/customApi.jsx";
 const MainDashboard = () => {
     const {recentActivities} = useContext(RecentActivitiesContext)
     const [loading, setLoading] = useState(true);
@@ -18,10 +19,10 @@ const MainDashboard = () => {
 
     useEffect(() => {
         const fetchTotalIncome = async () => {
-            const incomeAmountRes = await axios.get('http://127.0.0.1:8000/api/get-month-income');
-            const expenseAmountRes = await axios.get('http://127.0.0.1:8000/api/get-monthly-expense');
-            const incomesRes = await axios.get('http://127.0.0.1:8000/api/get-current-month-incomes')
-            const expenseRes = await axios.get('http://127.0.0.1:8000/api/get-current-month-expense')
+            const incomeAmountRes = await customApi.get('http://127.0.0.1:8000/api/get-month-income');
+            const expenseAmountRes = await customApi.get('http://127.0.0.1:8000/api/get-monthly-expense');
+            const incomesRes = await customApi.get('http://127.0.0.1:8000/api/get-current-month-incomes')
+            const expenseRes = await customApi.get('http://127.0.0.1:8000/api/get-current-month-expense')
             setCurrentMonthIncomes(incomesRes.data.incomes)
             setCurrentMonthExpenses(expenseRes.data.expenses)
             setMonthlyTotalIncome(incomeAmountRes.data.total_income)

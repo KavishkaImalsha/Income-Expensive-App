@@ -19,7 +19,7 @@ const TransactionManagementBtn = () => {
 
     return(
         <>
-            <Link to="/add-income"
+            <Link to="/dashboard/add-income"
                   onClick={() => {showDropDown(isDropdownVisible)}}
                className="flex items-center py-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <img src={transactionIcon} alt="TransactionIcon" className="w-5 h-5"/>
@@ -39,14 +39,14 @@ const TransactionManagementBtn = () => {
             {
                 isDropdownVisible && (
                     <ul className="mx-10 space-y-3">
-                        <li><Link to="/add-income" className="flex">
+                        <li><Link to="/dashboard/add-income" className="flex">
                             <img src={incomeIcon} alt="Income Icon" className="w-5 h-5 mx-1"/>
                             Add Income
                         </Link></li>
-                        <li><Link to="/add-expenses" className="flex">
+                        <li><Link to="/dashboard/add-expenses" className="flex">
                             <img src={expensesIcon} alt="Income Icon" className="w-5 h-5 mx-1"/>
                             Add Expenses</Link></li>
-                        <li><Link to="/add-categories" className="flex">
+                        <li><Link to="/dashboard/add-categories" className="flex">
                             <img src={categoriesIcon} alt="Income Icon" className="w-5 h-5 mx-1"/>
                             Add Categories</Link></li>
                     </ul>

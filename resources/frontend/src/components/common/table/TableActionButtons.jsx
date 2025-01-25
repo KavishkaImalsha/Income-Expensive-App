@@ -4,7 +4,7 @@ const TableActionButtons = ({id, click}) => {
     return(
         <>
             <td className="px-6 py-4">
-                <Link to={`/edit-category/${id}`}
+                <Link to={`/dashboard/edit-category/${id}`}
                       className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> |
                 <button
                     onClick={click}

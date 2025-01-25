@@ -17,6 +17,7 @@ import HandelInputDataAction from "../../../actions/form/HandelInputDataAction.j
 import ErrorAlertWithDetails from "../../common/alertMessages/ErrorAlertWithDetails.jsx";
 import ShowModel from "../../../actions/ShowModel.jsx";
 import {RecentActivitiesContext} from "../../contextStates/RecentActivitiesContext.jsx";
+import customApi from "../../api/customApi.jsx";
 
 const AddIncome = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
@@ -28,7 +29,7 @@ const AddIncome = () => {
 
     useEffect(()=> {
         const getCategories = async () => {
-            const category = await axios.get('http://127.0.0.1:8000/api/get-categories')
+            const category = await customApi.get('http://127.0.0.1:8000/api/get-categories')
 
             if(category.status === 200){
                 setIncomeCategories(category.data.data.filter((category) => {
@@ -41,13 +42,13 @@ const AddIncome = () => {
     }, []);
 
     const fetchAllIncomes = async () => {
-        setAllIncomes(await axios.get('http://127.0.0.1:8000/api/get-incomes'))
+        setAllIncomes(await customApi.get('http://127.0.0.1:8000/api/get-incomes'))
     }
 
     const handelFormData =async (event) => {
         event.preventDefault()
         try{
-            const addIncomeResponse = await axios.post('http://127.0.0.1:8000/api/add-income', incomeDetails)
+            const addIncomeResponse = await customApi.post('http://127.0.0.1:8000/api/add-income', incomeDetails)
             if(addIncomeResponse.status === 200){
                 setIncomeDetails({
                     'income_amount' : null,
@@ -121,7 +122,7 @@ const AddIncome = () => {
                                         <TableThRow data={income.income_category}/>
                                         <TableTdRow data={income.income_amount}/>
                                         <td className="px-6 py-4">
-                                            <Link to={`/edit-income/${income.id}`}
+                                            <Link to={`/dashboard/edit-income/${income.id}`}
                                                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> |
                                             <button
                                                 onClick={() => {deleteIncome(income.id)}}

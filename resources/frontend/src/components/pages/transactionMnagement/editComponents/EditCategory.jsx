@@ -9,6 +9,7 @@ import LoadingSpining from "../../../common/LoadingSpining.jsx";
 import {useContext} from "react";
 import {MessageContext} from "../../../common/MessageContext.jsx";
 import {RecentActivitiesContext} from "../../../contextStates/RecentActivitiesContext.jsx";
+import customApi from "../../../api/customApi.jsx";
 
 const EditCategory = () => {
     const id = useParams()
@@ -20,7 +21,7 @@ const EditCategory = () => {
 
     useEffect(() => {
         const fetchCategory = async () => {
-           const responseCategory = await axios.get(`http://127.0.0.1:8000/api/edit-category/${id.id}`)
+           const responseCategory = await customApi.get(`http://127.0.0.1:8000/api/edit-category/${id.id}`)
             if(responseCategory.status === 200){
                 setFormData({
                     'category_name' : responseCategory.data.data.category_name,
@@ -41,7 +42,7 @@ const EditCategory = () => {
 
     const handelFormSubmit = async (event) => {
         event.preventDefault()
-        const updateResponse = await axios.put(`http://127.0.0.1:8000/api/update-category/${id.id}`, formData);
+        const updateResponse = await customApi.put(`http://127.0.0.1:8000/api/update-category/${id.id}`, formData);
         if (updateResponse.status === 200){
             setResponseMessage(updateResponse.data.message)
             addRecentActivity(formData.category_type, `Edit ${formData.category_name} as ${formData.category_type}`)
@@ -50,7 +51,7 @@ const EditCategory = () => {
     }
 
     const closeModel = () => {
-        navigate('/add-categories')
+        navigate('/dashboard/add-categories')
     }
     return(
             <>

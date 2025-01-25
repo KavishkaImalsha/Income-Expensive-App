@@ -17,6 +17,7 @@ import TableActionButtons from "../../common/table/TableActionButtons.jsx";
 import HandelInputDataAction from "../../../actions/form/HandelInputDataAction.jsx";
 import ShowModel from "../../../actions/ShowModel.jsx";
 import {RecentActivitiesContext} from "../../contextStates/RecentActivitiesContext.jsx";
+import customApi from "../../api/customApi.jsx";
 
 const AddCategories = () => {
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
@@ -33,7 +34,7 @@ const AddCategories = () => {
     }, []);
 
     const fetchCategories = async () => {
-        const categoriesResponse = await axios.get('http://127.0.0.1:8000/api/get-categories');
+        const categoriesResponse = await customApi.get('http://127.0.0.1:8000/api/get-categories');
         if(categoriesResponse.status === 200){
             setCategories({
                 'categories' : categoriesResponse.data.data,
@@ -45,7 +46,7 @@ const AddCategories = () => {
     const handelFormData = async (event) => {
         event.preventDefault()
         try{
-            const response = await axios.post('http://127.0.0.1:8000/api/add-category', formData)
+            const response = await customApi.post('http://127.0.0.1:8000/api/add-category', formData)
             if(response.status === 200){
                 setFormData({
                     "category_name": "",
@@ -62,7 +63,7 @@ const AddCategories = () => {
     }
 
     const deleteCategory = async ($category_id) => {
-        const deleteResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-category/${$category_id}`)
+        const deleteResponse = await customApi.delete(`http://127.0.0.1:8000/api/delete-category/${$category_id}`)
         if(deleteResponse.status === 200){
             setResponseMessage(deleteResponse.data.message)
             fetchCategories()

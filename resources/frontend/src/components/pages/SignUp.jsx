@@ -13,7 +13,6 @@ import { ToastContainer, toast } from 'react-toastify';
 const SignUp = () => {
     const [userDetails, setUserDetails] = useState({firstName : "", lastName : "", email : "", password : ""})
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
-    const [showToast, setShowToast] = useState(false)
 
     const submitUserRegForm = async (event) => {
         event.preventDefault()

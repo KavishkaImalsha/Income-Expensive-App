@@ -17,6 +17,7 @@ import TableHead from "../../common/table/TableHead.jsx";
 import TableThRow from "../../common/table/TableThRow.jsx";
 import TableTdRow from "../../common/table/TableTdRow.jsx";
 import {RecentActivitiesContext} from "../../contextStates/RecentActivitiesContext.jsx";
+import customApi from "../../api/customApi.jsx";
 
 const AddExpenses = () => {
     const [isModelVisible, setIsModelVisible] = useState(false)
@@ -33,13 +34,13 @@ const AddExpenses = () => {
     }, []);
 
     const fetchCategory = async () => {
-        const category = await axios.get('http://127.0.0.1:8000/api/get-categories');
+        const category = await customApi.get('http://127.0.0.1:8000/api/get-categories');
         setExpensesNames(category.data.data.filter(category => category.category_type === "Expense").map(expense => expense.category_name))
         setLoading(false)
     }
 
     const fetchExpenses = async () => {
-        const getExpenseResponse = await axios.get('http://127.0.0.1:8000/api/get-expenses')
+        const getExpenseResponse = await customApi.get('http://127.0.0.1:8000/api/get-expenses')
          if(getExpenseResponse.status === 200){
              setExpenses(getExpenseResponse.data.expenses)
              setLoading(false)
@@ -49,7 +50,7 @@ const AddExpenses = () => {
     const handelFormSubmit = async (event) => {
         event.preventDefault()
         try{
-            const submitResponse = await axios.post('http://127.0.0.1:8000/api/add-expense', expense);
+            const submitResponse = await customApi.post('http://127.0.0.1:8000/api/add-expense', expense);
             if(submitResponse.status === 200){
                 setResponseMessage(submitResponse.data.message)
                 setIsModelVisible(false)
@@ -62,7 +63,7 @@ const AddExpenses = () => {
     }
 
     const deleteExpense = async (expense_id) => {
-        const deleteExpenseResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-expense/${expense_id}`);
+        const deleteExpenseResponse = await customApi.delete(`http://127.0.0.1:8000/api/delete-expense/${expense_id}`);
         if(deleteExpenseResponse.status === 200){
             setResponseMessage(deleteExpenseResponse.data.message)
             addRecentActivity("Expense", `Delete Rs: ${deleteExpenseResponse.data.expense_amount} from ${deleteExpenseResponse.data.expense_category} expense`)
@@ -119,7 +120,7 @@ const AddExpenses = () => {
                                         <TableThRow data={expense.expense_category}/>
                                         <TableTdRow data={expense.expense_amount}/>
                                         <td className="px-6 py-4">
-                                            <Link to={`/edit-expense/${expense.id}`}
+                                            <Link to={`/dashboard/edit-expense/${expense.id}`}
                                                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link> |
                                             <button
                                                 onClick={() => {deleteExpense(expense.id)}}

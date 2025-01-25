@@ -1,8 +1,35 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import InputLayout from "../common/formFields/InputLayout.jsx";
 import ButtonLayout from "../common/formFields/ButtonLayout.jsx";
+import {useState} from "react";
+import axios from "axios";
+import HandelInputDataAction from "../../actions/form/HandelInputDataAction.jsx";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
+    const [userCredentials, setUserCredentials] = useState({email : "", password : ""})
+    const navigate = useNavigate()
+
+    const handelLogin = async (event) => {
+        event.preventDefault()
+
+        try {
+            const loginResponse = await axios.post('http://127.0.0.1:8000/api/login', userCredentials)
+            if(loginResponse.status === 200){
+                localStorage.setItem("auth_token", loginResponse.data.token)
+                navigate('/dashboard')
+            }
+            else{
+                toast.error("Invalid Credentials", {
+                    position: "top-center"
+                })
+            }
+        }catch (error){
+            toast.error("Invalid Credentials", {
+                position: "top-center"
+            })
+        }
+    }
     return(
         <>
             <div className="h-screen w-full bg-[url('/public/images/login_bg.png')] bg-cover bg-no-repeat">
@@ -13,10 +40,14 @@ const Login = () => {
                                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                     Sign in to your account
                                 </h1>
-                                <form className="space-y-4 md:space-y-6" action="#">
-                                    <InputLayout type="email" lableName="Your email" inputName="email" placeholder="name@company.com"/>
+                                <form className="space-y-4 md:space-y-6" onSubmit={handelLogin}>
+                                    <InputLayout type="email" lableName="Your email" inputName="email" placeholder="name@company.com"
+                                        onChange={HandelInputDataAction(setUserCredentials)}
+                                    />
 
-                                    <InputLayout type="password" lableName="Password" inputName="password" placeholder="••••••••"/>
+                                    <InputLayout type="password" lableName="Password" inputName="password" placeholder="••••••••"
+                                        onChange={HandelInputDataAction(setUserCredentials)}
+                                    />
 
                                     <ButtonLayout type="submit" btnName="Sign In"/>
 
@@ -29,6 +60,7 @@ const Login = () => {
                             </div>
                         </div>
                     </div>
+                <ToastContainer/>
             </div>
         </>
     )

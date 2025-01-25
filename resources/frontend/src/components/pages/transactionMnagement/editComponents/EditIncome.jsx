@@ -10,6 +10,7 @@ import FormSubmitBtn from "../commonFields/FormSubmitBtn.jsx";
 import HandelInputDataAction from "../../../../actions/form/HandelInputDataAction.jsx";
 import {MessageContext} from "../../../common/MessageContext.jsx";
 import {RecentActivitiesContext} from "../../../contextStates/RecentActivitiesContext.jsx";
+import customApi from "../../../api/customApi.jsx";
 
 const EditIncome = () => {
     const income_id = useParams()
@@ -26,7 +27,7 @@ const EditIncome = () => {
     }, []);
 
     const fetchIncome = async () => {
-        const response = await axios.get(`http://127.0.0.1:8000/api/edit-income/${income_id.id}`)
+        const response = await customApi.get(`http://127.0.0.1:8000/api/edit-income/${income_id.id}`)
 
         if (response.status === 200){
             setIncome({
@@ -38,7 +39,7 @@ const EditIncome = () => {
     }
 
     const getCategories = async () => {
-        const category = await axios.get('http://127.0.0.1:8000/api/get-categories')
+        const category = await customApi.get('http://127.0.0.1:8000/api/get-categories')
 
         if(category.status === 200){
             setIncomeCategories(category.data.data.filter((category) => {
@@ -49,7 +50,7 @@ const EditIncome = () => {
 
     const handelEditFormSubmit = async (event) => {
         event.preventDefault()
-        const submitResponse = await axios.put(`http://127.0.0.1:8000/api/update-income/${income_id.id}`, income);
+        const submitResponse = await customApi.put(`http://127.0.0.1:8000/api/update-income/${income_id.id}`, income);
         if (submitResponse.status === 200){
             setResponseMessage(submitResponse.data.message);
             addRecentActivity("Income", "Edit income data")
@@ -59,7 +60,7 @@ const EditIncome = () => {
     }
 
     const closeModel = () => {
-        navigate('/add-income')
+        navigate('/dashboard/add-income')
     }
     return(
         <>
