@@ -1,14 +1,16 @@
 import {Link, useNavigate} from "react-router-dom";
 import InputLayout from "../common/formFields/InputLayout.jsx";
 import ButtonLayout from "../common/formFields/ButtonLayout.jsx";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import axios from "axios";
 import HandelInputDataAction from "../../actions/form/HandelInputDataAction.jsx";
 import { ToastContainer, toast } from 'react-toastify';
+import {AuthUserContext} from "../contextStates/auth/AuthUserContext.jsx";
 
 const Login = () => {
     const [userCredentials, setUserCredentials] = useState({email : "", password : ""})
     const navigate = useNavigate()
+    const {login} = useContext(AuthUserContext)
 
     const handelLogin = async (event) => {
         event.preventDefault()
@@ -18,6 +20,7 @@ const Login = () => {
             if(loginResponse.status === 200){
                 localStorage.setItem("auth_token", loginResponse.data.token)
                 navigate('/dashboard')
+                login(loginResponse.data.user)
             }
             else{
                 toast.error("Invalid Credentials", {
