@@ -18,9 +18,9 @@ const Login = () => {
         try {
             const loginResponse = await axios.post('http://127.0.0.1:8000/api/login', userCredentials)
             if(loginResponse.status === 200){
-                localStorage.setItem("auth_token", loginResponse.data.token)
+                sessionStorage.setItem('user', JSON.stringify(loginResponse.data.user))
+                sessionStorage.setItem("auth_token", loginResponse.data.token)
                 navigate('/dashboard')
-                login(loginResponse.data.user)
             }
             else{
                 toast.error("Invalid Credentials", {

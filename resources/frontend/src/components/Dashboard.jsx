@@ -1,4 +1,4 @@
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import Wallets from "./pages/Wallets.jsx";
 import MainDashboard from "./pages/MainDashboard.jsx";
 import AddIncome from "./pages/transactionMnagement/AddIncome.jsx";
@@ -20,6 +20,7 @@ const Dashboard = () => {
             <RecentActivitiesProvider>
                 <MessageProvider>
                     <Routes>
+                        <Route path='/' element={<Navigate to="/dashboard/main-dashboard"/>}/>
                         <Route path='/main-dashboard' element={<MainDashboard/>}/>
                         <Route path='/wallets' element={<Wallets/>}/>
                         <Route path='/add-income' element={<AddIncome/>}/>

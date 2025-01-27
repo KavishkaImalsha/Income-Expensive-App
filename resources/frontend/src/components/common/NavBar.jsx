@@ -1,5 +1,19 @@
 import main_logo from "../../assets/images/main_logo.png";
+import {useContext, useEffect, useState} from "react";
+import {AuthUserContext} from "../contextStates/auth/AuthUserContext.jsx";
+import LogOut from "../../actions/LogOut.jsx";
+import {redirect, useNavigate} from "react-router-dom";
 const NavBar = () => {
+    const [user, setUser] = useState({})
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const userDetails = JSON.parse(sessionStorage.getItem('user'))
+        if (userDetails){
+            setUser(userDetails)
+        }
+    }, []);
+
   return (
       <>
           <nav
@@ -41,33 +55,24 @@ const NavBar = () => {
                                   id="dropdown-user">
                                   <div className="px-4 py-3" role="none">
                                       <p className="text-sm text-gray-900 dark:text-white" role="none">
-                                          Neil Sims
+                                          {user.firstName} {user.lastName}
                                       </p>
                                       <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                                          role="none">
-                                          neil.sims@flowbite.com
+                                          {user.email}
                                       </p>
                                   </div>
                                   <ul className="py-1" role="none">
                                       <li>
-                                          <a href="#"
-                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                             role="menuitem">Dashboard</a>
+                                          <button
+                                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                             role="menuitem">Settings</button>
                                       </li>
                                       <li>
-                                          <a href="#"
-                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                             role="menuitem">Settings</a>
-                                      </li>
-                                      <li>
-                                          <a href="#"
-                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                             role="menuitem">Earnings</a>
-                                      </li>
-                                      <li>
-                                          <a href="#"
-                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                             role="menuitem">Sign out</a>
+                                          <button
+                                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                             onClick={() => {LogOut()}}
+                                                  role="menuitem">Sign out</button>
                                       </li>
                                   </ul>
                               </div>
@@ -76,8 +81,6 @@ const NavBar = () => {
                   </div>
               </div>
           </nav>
-
-          <script src="https://unpkg.com/@themesberg/flowbite@latest/dist/flowbite.bundle.js"></script>
       </>
   )
 }

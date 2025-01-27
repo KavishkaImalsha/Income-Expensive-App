@@ -3,14 +3,16 @@ import expenseDashboard from "../../assets/images/expenseDashboard.png";
 import worthDashboard from "../../assets/images/worthDashboard.png";
 import DashboardCard from "../common/cards/DashboardCard.jsx";
 import {useContext, useEffect, useState} from "react";
-import axios from "axios";
 import DoughnutChart from "../common/charts/DoughnutChart.jsx";
 import LoadingSpining from "../common/LoadingSpining.jsx";
 import {RecentActivitiesContext} from "../contextStates/RecentActivitiesContext.jsx";
 import customApi from "../api/customApi.jsx";
+import {toast, ToastContainer} from "react-toastify";
+import {AuthUserContext} from "../contextStates/auth/AuthUserContext.jsx";
 const MainDashboard = () => {
     const {recentActivities} = useContext(RecentActivitiesContext)
-    const [loading, setLoading] = useState(true);
+    const {isLogin, setIsLogin} = useContext(AuthUserContext)
+    const [loading, setLoading] = useState(true)
     const [monthlyTotalIncome, setMonthlyTotalIncome] = useState(null)
     const [currentMonthIncomes, setCurrentMonthIncomes] = useState([])
     const [monthlyTotalExpense, setMonthlyTotalExpense] = useState(null)
@@ -33,6 +35,11 @@ const MainDashboard = () => {
     }, []);
     const titleSetter = (event) => {
         setTitle(event.target.value)
+    }
+
+    if (isLogin){
+        toast.success("Successfully Login", {position:"top-right"})
+        setIsLogin(false)
     }
     return(
         <>
@@ -78,6 +85,7 @@ const MainDashboard = () => {
                         })}
                     </div>
                 </div>
+                <ToastContainer/>
             </div>)}
         </>
     )

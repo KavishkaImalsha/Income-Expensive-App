@@ -6,7 +6,7 @@ const customApi = axios.create({
 
 customApi.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem("auth_token")
+        const token = sessionStorage.getItem("auth_token")
 
         if(config){
             config.headers.Authorization = `Bearer ${token}`
