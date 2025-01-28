@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class UserRegistrationAction
 {
-    public function __invoke($validateRequest)
+    public function __invoke($validateRequest): array
     {
         $hashedPassword = Hash::make($validateRequest["password"]);
 

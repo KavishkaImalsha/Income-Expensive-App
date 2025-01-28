@@ -14,6 +14,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/add-income', [IncomeController::class, 'addIncome']);
     Route::post('/add-expense', [ExpenseController::class, 'addExpense']);
     Route::post('/add-category', [CategoryController::class, 'addCategory']);
+    Route::post('/change-password', [RegisteredUserController::class, 'changePassword']);
 
     Route::get('/get-categories', [CategoryController::class, 'getCategories']);
     Route::get('/edit-category/{category_id}', [CategoryController::class, 'editCategory']);
