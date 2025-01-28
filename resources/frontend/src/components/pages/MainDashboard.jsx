@@ -9,6 +9,7 @@ import {RecentActivitiesContext} from "../contextStates/RecentActivitiesContext.
 import customApi from "../api/customApi.jsx";
 import {toast, ToastContainer} from "react-toastify";
 import {AuthUserContext} from "../contextStates/auth/AuthUserContext.jsx";
+import Settings from "./Settings.jsx";
 const MainDashboard = () => {
     const {recentActivities} = useContext(RecentActivitiesContext)
     const {isLogin, setIsLogin} = useContext(AuthUserContext)

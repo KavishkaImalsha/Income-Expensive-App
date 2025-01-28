@@ -2,9 +2,10 @@ import main_logo from "../../assets/images/main_logo.png";
 import {useContext, useEffect, useState} from "react";
 import {AuthUserContext} from "../contextStates/auth/AuthUserContext.jsx";
 import LogOut from "../../actions/LogOut.jsx";
-import {redirect, useNavigate} from "react-router-dom";
+import {Link, redirect, useNavigate} from "react-router-dom";
 const NavBar = () => {
     const [user, setUser] = useState({})
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -13,6 +14,16 @@ const NavBar = () => {
             setUser(userDetails)
         }
     }, []);
+
+    const showDropdown = (isDropdownVisible) => {
+        isDropdownVisible ? setIsDropdownVisible(false) : setIsDropdownVisible(true)
+    }
+
+    const handleBlur = (event) => {
+        if(!event.currentTarget.contains(event.relatedTarget)){
+            setIsDropdownVisible(false)
+        }
+    }
 
   return (
       <>
@@ -38,21 +49,22 @@ const NavBar = () => {
                                   className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Budget Management System</span>
                           </a>
                       </div>
-                      <div className="flex items-center">
+                      <div className="flex items-center" onBlur={handleBlur}>
                           <div className="flex items-center ms-3">
-                              <div>
+                              <div className="relative">
                                   <button type="button"
-                                          className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                                          aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                                          onClick={() => {showDropdown(isDropdownVisible)}}
+                                          className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
                                       <span className="sr-only">Open user menu</span>
                                       <img className="w-8 h-8 rounded-full"
                                            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                                            alt="user photo"/>
                                   </button>
                               </div>
-                              <div
-                                  className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
-                                  id="dropdown-user">
+                              {isDropdownVisible && (<div
+                                  className="z-50 absolute my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                                  id="dropdown-user"
+                              style={{top:"75%", right:"0.5%"}}>
                                   <div className="px-4 py-3" role="none">
                                       <p className="text-sm text-gray-900 dark:text-white" role="none">
                                           {user.firstName} {user.lastName}
@@ -64,18 +76,22 @@ const NavBar = () => {
                                   </div>
                                   <ul className="py-1" role="none">
                                       <li>
-                                          <button
-                                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                             role="menuitem">Settings</button>
+                                          <Link to='/dashboard/settings'
+                                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                              role="menuitem">Settings
+                                          </Link>
                                       </li>
                                       <li>
                                           <button
-                                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                             onClick={() => {LogOut()}}
-                                                  role="menuitem">Sign out</button>
+                                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                              onClick={() => {
+                                                  LogOut()
+                                              }}
+                                              role="menuitem">Sign out
+                                          </button>
                                       </li>
                                   </ul>
-                              </div>
+                              </div>)}
                           </div>
                       </div>
                   </div>

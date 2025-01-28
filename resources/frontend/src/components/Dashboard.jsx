@@ -11,6 +11,7 @@ import {RecentActivitiesProvider} from "./contextStates/RecentActivitiesContext.
 import MessageProvider from "./common/MessageContext.jsx";
 import NavBar from "./common/NavBar.jsx";
 import SideBar from "./common/SideBar.jsx";
+import Settings from "./pages/Settings.jsx";
 
 const Dashboard = () => {
     return(
@@ -28,7 +29,8 @@ const Dashboard = () => {
                         <Route path='/add-categories' element={<AddCategories/>}/>
                         <Route path='/edit-category/:id' element={<EditCategory/>}/>
                         <Route path='/edit-income/:id' element={<EditIncome/>}/>
-                        <Route path='edit-expense/:id' element={<EditExpense/>}/>
+                        <Route path='/edit-expense/:id' element={<EditExpense/>}/>
+                        <Route path='/settings/*' element={<Settings/>}/>
                     </Routes>
                 </MessageProvider>
             </RecentActivitiesProvider>

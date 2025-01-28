@@ -10,6 +10,6 @@ export default {
       // Add more custom font families as needed
     },},
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar')],
 }
 
