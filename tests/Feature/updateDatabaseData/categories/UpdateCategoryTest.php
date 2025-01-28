@@ -12,6 +12,7 @@ class UpdateCategoryTest extends TestCase
     use RefreshDatabase;
     public function test_update_category()
     {
+        $this->withoutMiddleware();
         $exitingCategory = Category::factory()->create();
         $newCategory = Category::factory()->make()->toArray();
 

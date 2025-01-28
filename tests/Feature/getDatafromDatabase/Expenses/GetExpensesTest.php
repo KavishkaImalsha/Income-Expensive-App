@@ -13,6 +13,7 @@ class GetExpensesTest extends TestCase
 
     public function test_get_all_expenses_in_the_database()
     {
+        $this->withoutMiddleware();
         $expenses = Expense::factory()->count(3)->create();
 
         $response = $this->getJson('api/get-expenses');

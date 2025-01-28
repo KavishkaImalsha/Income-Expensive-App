@@ -11,6 +11,7 @@ class EditExpenseTest extends TestCase
     use RefreshDatabase;
     public function test_edit_expense()
     {
+        $this->withoutMiddleware();
         $expense = Expense::factory()->create();
 
         $response = $this->getJson("api/edit-expense/$expense->id");

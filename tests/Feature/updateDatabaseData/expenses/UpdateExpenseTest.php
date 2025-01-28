@@ -12,6 +12,7 @@ class UpdateExpenseTest extends TestCase
     use RefreshDatabase;
     public function test_update_expense()
     {
+        $this->withoutMiddleware();
         $existingExpense = Expense::factory()->create();
         $newExpense = Expense::factory()->make()->toArray();
 

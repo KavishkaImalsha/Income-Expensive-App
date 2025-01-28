@@ -9,6 +9,7 @@ class EditCategoryTest extends TestCase
 {
     public function test_edit_category_from_database()
     {
+        $this->withoutMiddleware();
         $categories = Category::factory()->count(5)->create();
         $id = mt_rand(1 , 5);
 

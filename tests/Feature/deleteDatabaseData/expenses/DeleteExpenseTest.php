@@ -13,6 +13,7 @@ class DeleteExpenseTest extends TestCase
 
     public function test_delete_expense()
     {
+        $this->withoutMiddleware();
         $expense = Expense::factory()->create();
 
         $response = $this->deleteJson("api/delete-expense/$expense->id");

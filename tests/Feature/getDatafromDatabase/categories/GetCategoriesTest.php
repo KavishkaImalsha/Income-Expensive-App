@@ -12,6 +12,7 @@ class GetCategoriesTest extends TestCase
     use RefreshDatabase;
     public function test_retrieve_categories_from_database()
     {
+        $this->withoutMiddleware();
         $category = Category::factory()->create();
 
         $response = $this->getJson('api/get-categories');

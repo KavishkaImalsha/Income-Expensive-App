@@ -13,6 +13,7 @@ class GetIncomesTest extends TestCase
     use RefreshDatabase;
     public function test_get_incomes_from_database()
     {
+        $this->withoutMiddleware();
         $incomes = Income::factory()->create();
 
         $response = $this->getJson('api/get-incomes');

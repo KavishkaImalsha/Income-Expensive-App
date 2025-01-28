@@ -11,6 +11,7 @@ class AddRegisteredUserTest extends TestCase
 
     public function test_storing_registered_user()
     {
+        $this->withoutMiddleware();
         $user = RegisteredUser::factory()->make()->toArray();
 
         $response = $this->postJson('api/add-registered-user', $user);

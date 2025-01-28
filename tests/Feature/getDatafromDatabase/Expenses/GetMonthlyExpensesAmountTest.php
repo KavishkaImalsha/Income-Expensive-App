@@ -13,6 +13,7 @@ class GetMonthlyExpensesAmountTest extends TestCase
     use RefreshDatabase;
     public function test_get_monthly_expense()
     {
+        $this->withoutMiddleware();
         $expenses = Expense::factory()->count(5)->create([
             "created_at" => Carbon::create(2025, 1, rand(1, 30)),
         ]);

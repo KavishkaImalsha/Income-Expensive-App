@@ -12,6 +12,7 @@ class DeleteCategoryTest extends TestCase
     use RefreshDatabase;
     public function test_delete_category()
     {
+        $this->withoutMiddleware();
         $category = Category::factory()->create();
 
         $response = $this->deleteJson("api/delete-category/$category->id");

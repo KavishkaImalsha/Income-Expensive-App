@@ -1,8 +1,4 @@
 import {useNavigate, Routes, Route, Navigate} from "react-router-dom";
-import AccountIcon from "../../assets/icons/AccountIcon.jsx";
-import InputLayout from "../common/formFields/InputLayout.jsx";
-import {useEffect, useState} from "react";
-import HandelInputDataAction from "../../actions/form/HandelInputDataAction.jsx";
 import AccountBtn from "../common/settings/settingsSideBarButtons/AccountBtn.jsx";
 import EditAccountForm from "../common/settings/settingsForms/EditAccountForm.jsx";
 

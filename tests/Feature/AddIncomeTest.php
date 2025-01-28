@@ -10,6 +10,7 @@ class AddIncomeTest extends TestCase
     use RefreshDatabase;
     public function test_income_and_category_database_save()
     {
+        $this->withoutMiddleware();
         //A-Arrange
         //Dummy data that we need to test
         $income = Income::factory()->make()->toArray();
@@ -34,6 +35,7 @@ class AddIncomeTest extends TestCase
 
     public function test_error_add_income_without_filling_income_amount()
     {
+        $this->withoutMiddleware();
         $incomeWithoutAmount = Income::factory()->make(['income_amount' => null])->toArray();
 
         $response = $this->postJson('api/add-income', $incomeWithoutAmount);
@@ -44,6 +46,7 @@ class AddIncomeTest extends TestCase
 
     public function test_error_add_income_without_entering_income_category()
     {
+        $this->withoutMiddleware();
         $incomeWithoutCategory = Income::factory()->make(['income_category' => null])->toArray();
 
         $response = $this->postJson('api/add-income', $incomeWithoutCategory);
@@ -54,6 +57,7 @@ class AddIncomeTest extends TestCase
 
     public function test_error_add_income_without_passing_data()
     {
+        $this->withoutMiddleware();
         $income = Income::factory()->make(['income_amount' => null, 'income_category' => null])->toArray();
 
         $response = $this->postJson('api/add-income', $income);

@@ -12,6 +12,7 @@ class GetSpecificMonthIncomeTest extends TestCase
     use RefreshDatabase;
     public function test_specific_month_income_amount()
     {
+        $this->withoutMiddleware();
         $incomes = Income::factory()->count(20)->create([
             'created_at' => Carbon::create(2025,1, rand(1, 30))
         ]);

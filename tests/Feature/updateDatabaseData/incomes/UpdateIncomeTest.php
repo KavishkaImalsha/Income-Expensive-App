@@ -9,6 +9,7 @@ class UpdateIncomeTest extends TestCase
 {
     public function test_update_income()
     {
+        $this->withoutMiddleware();
         $existingIncome = Income::factory()->create();
         $newIncome = Income::factory()->make()->toArray();
 

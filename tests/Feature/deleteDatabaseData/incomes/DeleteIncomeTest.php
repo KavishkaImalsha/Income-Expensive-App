@@ -9,6 +9,7 @@ class DeleteIncomeTest extends TestCase
 {
     public function test_delete_income()
     {
+        $this->withoutMiddleware();
         $income = Income::factory()->create();
 
         $response = $this->deleteJson("api/delete-income/$income->id");

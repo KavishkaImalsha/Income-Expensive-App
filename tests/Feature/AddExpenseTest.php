@@ -10,6 +10,7 @@ class AddExpenseTest extends TestCase
     use RefreshDatabase;
     public function test_expense_amount_and_category_database_save()
     {
+        $this->withoutMiddleware();
         $expense = Expense::factory()->make()->toArray();
 
         $response = $this->postJson('api/add-expense', $expense);
@@ -26,6 +27,7 @@ class AddExpenseTest extends TestCase
 
     public function test_add_expense_without_passing_expense_amount()
     {
+        $this->withoutMiddleware();
         $expenseWithoutAmount = Expense::factory()->make(['expense_amount' => null])->toArray();
 
         $response = $this->postJson('api/add-expense', $expenseWithoutAmount);
@@ -39,6 +41,7 @@ class AddExpenseTest extends TestCase
 
     public function test_add_expense_without_passing_expense_category()
     {
+        $this->withoutMiddleware();
         $expenseWithoutCategory = Expense::factory()->make(['expense_category' => null])->toArray();
 
         $response = $this->postJson('api/add-expense', $expenseWithoutCategory);
@@ -52,6 +55,7 @@ class AddExpenseTest extends TestCase
 
     public function test_add_expense_without_passing_any_data()
     {
+        $this->withoutMiddleware();
         $expense = Expense::factory()->make(['expense_amount' => null, 'expense_category' => null])->toArray();
 
         $response = $this->postJson('api/add-expense', $expense);

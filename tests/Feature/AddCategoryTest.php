@@ -10,6 +10,7 @@ class AddCategoryTest extends TestCase
     use RefreshDatabase;
     public function test_add_category_database_save()
     {
+        $this->withoutMiddleware();
         $category = Category::factory()->make()->toArray();
 
         $response = $this->postJson('api/add-category', $category);
@@ -26,6 +27,7 @@ class AddCategoryTest extends TestCase
 
     public function test_add_category_without_passing_category_name()
     {
+        $this->withoutMiddleware();
         $category = Category::factory()->make(['category_name' => null])->toArray();
 
         $response = $this->postJson('api/add-category', $category);
@@ -39,6 +41,7 @@ class AddCategoryTest extends TestCase
 
     public function test_add_category_without_passing_category_type()
     {
+        $this->withoutMiddleware();
         $category = Category::factory()->make(['category_type' => null])->toArray();
 
         $response = $this->postJson('api/add-category', $category);
@@ -52,6 +55,7 @@ class AddCategoryTest extends TestCase
 
     public function test_add_category_without_passing_any_data()
     {
+        $this->withoutMiddleware();
         $category = Category::factory()->make([
             'category_name' => null,
             'category_type' => null

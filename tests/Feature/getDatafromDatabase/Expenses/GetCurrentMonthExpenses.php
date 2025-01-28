@@ -12,6 +12,7 @@ class GetCurrentMonthExpenses extends TestCase
     use RefreshDatabase;
     public function test_get_current_month_expenses(): void
     {
+        $this->withoutMiddleware();
         $expenses = Expense::factory()->count(5)->create();
         $currentYear = now()->year;
         $currentMonth = now()->month;

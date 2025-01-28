@@ -11,6 +11,7 @@ class EditIncomeTest extends TestCase
     use RefreshDatabase;
     public function test_edit_income()
     {
+        $this->withoutMiddleware();
         $income = Income::factory()->create();
 
         $response = $this->getJson("api/edit-income/$income->id");

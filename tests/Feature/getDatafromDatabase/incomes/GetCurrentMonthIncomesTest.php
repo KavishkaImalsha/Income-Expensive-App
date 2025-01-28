@@ -10,6 +10,7 @@ class GetCurrentMonthIncomesTest extends TestCase
 {
     use RefreshDatabase;
     public function test_get_current_month_income(){
+        $this->withoutMiddleware();
         $incomes = Income::factory()->count(5)->create();
         $currentYear = now()->year;
         $currentMonth = now()->month;
