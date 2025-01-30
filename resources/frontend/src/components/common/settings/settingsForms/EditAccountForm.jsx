@@ -21,21 +21,45 @@ const EditAccountForm = () => {
     }
     const HandelForm = async (event) => {
         event.preventDefault()
-        if(changePassword['newPassword'] !== ''){
-            if (changePassword['currentPassword'] !== ''){
-                try{
-                    const changePasswordData = {
-                        currentPassword: changePassword.currentPassword,
-                        newPassword : changePassword.newPassword,
-                        uuid : user.uuid
-                    }
-                    const passwordChangeResponse = await customApi.post('http://127.0.0.1:8000/api/change-password', changePasswordData)
-                    console.log(passwordChangeResponse.data.status)
-                }catch (error){}
+        if(changePassword['newPassword'] !== '' && changePassword['currentPassword'] !== ''){
+            try{
+                const changePasswordData = {
+                    currentPassword: changePassword.currentPassword,
+                    newPassword : changePassword.newPassword,
+                    uuid : user.uuid
+                }
+                const passwordChangeResponse = await customApi.post('http://127.0.0.1:8000/api/change-password', changePasswordData)
+                if(passwordChangeResponse.data.status === 200){
+                    const changeUser = JSON.parse(sessionStorage.getItem('user'))
+                    changeUser.password = changePassword.newPassword
+                    sessionStorage.setItem('user', JSON.stringify(changeUser))
+                    toast.success(passwordChangeResponse.data.message)
+                }
+                else if (passwordChangeResponse.data.status === 400){
+                    toast.error(passwordChangeResponse.data.message)
+                    return
+                }
+            }catch (error){
+                    toast.error(error.response.data.message)
+                    return
             }
-            else{
-                toast.error("Password is incorrect");
+        }
+
+        try {
+            const changeUserData = {
+                firstName : user.firstName,
+                lastName : user.lastName,
+                email : user.email
             }
+            const userDetailsChangeRes = await customApi.put(`http://127.0.0.1:8000/api/change-user-details/${user.uuid}`, changeUserData);
+            const changeUser = JSON.parse(sessionStorage.getItem('user'))
+            changeUser.firstName = changeUserData.firstName
+            changeUser.lastName = changeUserData.lastName
+            changeUser.email = changeUserData.email
+            sessionStorage.setItem('user', JSON.stringify(changeUser))
+            toast.success(userDetailsChangeRes.data.message)
+        }catch (error){
+            toast.error(error.response.data.message)
         }
     }
     return (
