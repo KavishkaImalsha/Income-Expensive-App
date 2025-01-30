@@ -3,6 +3,7 @@ import {useContext, useEffect, useState} from "react";
 import {AuthUserContext} from "../contextStates/auth/AuthUserContext.jsx";
 import LogOut from "../../actions/LogOut.jsx";
 import {Link, redirect, useNavigate} from "react-router-dom";
+import ProfileIcon from "../../assets/icons/ProfileIcon.jsx";
 const NavBar = () => {
     const [user, setUser] = useState({})
     const [isDropdownVisible, setIsDropdownVisible] = useState(false)
@@ -42,23 +43,24 @@ const NavBar = () => {
                                         d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
                               </svg>
                           </button>
-                          <a href="https://flowbite.com" className="flex ms-2 md:me-24">
+                          <Link to="/dashboard" className="flex ms-2 md:me-24">
                               <img src={main_logo} className="h-8 me-3"
                                    alt="Main Logo"/>
                               <span
                                   className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Budget Management System</span>
-                          </a>
+                          </Link>
                       </div>
                       <div className="flex items-center" onBlur={handleBlur}>
                           <div className="flex items-center ms-3">
-                              <div className="relative">
+                              <div className="relative flex">
+                                  <p className="mx-3 text-center text-lg">Hello,<span className="font-poppins font-bold mx-1">{user.firstName}</span>!</p>
                                   <button type="button"
-                                          onClick={() => {showDropdown(isDropdownVisible)}}
-                                          className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                                          onClick={() => {
+                                              showDropdown(isDropdownVisible)
+                                          }}
+                                          className="flex text-sm rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
                                       <span className="sr-only">Open user menu</span>
-                                      <img className="w-8 h-8 rounded-full"
-                                           src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                                           alt="user photo"/>
+                                      <ProfileIcon/>
                                   </button>
                               </div>
                               {isDropdownVisible && (<div
