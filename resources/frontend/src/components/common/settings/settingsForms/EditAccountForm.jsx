@@ -1,6 +1,8 @@
 import InputLayout from "../../formFields/InputLayout.jsx";
 import HandelInputDataAction from "../../../../actions/form/HandelInputDataAction.jsx";
 import {useEffect, useState} from "react";
+import {toast, ToastContainer} from "react-toastify";
+import customApi from "../../../api/customApi.jsx";
 
 const EditAccountForm = () => {
     const [user, setUser] = useState({})
@@ -17,10 +19,24 @@ const EditAccountForm = () => {
             }
         })
     }
-    const HandelForm = (event) => {
+    const HandelForm = async (event) => {
         event.preventDefault()
-        console.log(user)
-        console.log(changePassword)
+        if(changePassword['newPassword'] !== ''){
+            if (changePassword['currentPassword'] !== ''){
+                try{
+                    const changePasswordData = {
+                        currentPassword: changePassword.currentPassword,
+                        newPassword : changePassword.newPassword,
+                        uuid : user.uuid
+                    }
+                    const passwordChangeResponse = await customApi.post('http://127.0.0.1:8000/api/change-password', changePasswordData)
+                    console.log(passwordChangeResponse.data.status)
+                }catch (error){}
+            }
+            else{
+                toast.error("Password is incorrect");
+            }
+        }
     }
     return (
         <div
@@ -79,7 +95,9 @@ const EditAccountForm = () => {
                     </button>
                 </div>
             </form>
+            <ToastContainer/>
         </div>
+
     )
 }
 

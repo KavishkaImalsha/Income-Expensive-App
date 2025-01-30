@@ -29,7 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/update-category/{category_id}', [CategoryController::class, 'updateCategory']);
     Route::put('/update-income/{income_id}', [IncomeController::class, 'updateIncome']);
-    Route::put('update-expense/{expense_id}', [ExpenseController::class, 'updateExpense']);
+    Route::put('/update-expense/{expense_id}', [ExpenseController::class, 'updateExpense']);
+    Route::put('/change-user-details/{user_id}', [RegisteredUserController::class, 'changeUserDetails']);
 
     Route::delete('/delete-category/{category_id}', [CategoryController::class, 'deleteCategory']);
     Route::delete('/delete-income/{income_id}', [IncomeController::class, 'deleteIncome']);
