@@ -66,7 +66,7 @@ const AddIncome = () => {
     }
 
     const deleteIncome = async (income_id) => {
-        const deleteResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-income/${income_id}/${user.uuid}`)
+        const deleteResponse = await customApi.delete(`http://127.0.0.1:8000/api/delete-income/${income_id}/${user.uuid}`)
         if (deleteResponse.status === 200){
             setResponseMessage(deleteResponse.data.message)
             addRecentActivity(user.uuid, "Income", `Delete Rs: ${deleteResponse.data.income_amount} from ${deleteResponse.data.income_category} income`)
