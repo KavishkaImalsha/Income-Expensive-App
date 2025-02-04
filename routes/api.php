@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-monthly-expense/{user_id}', [ExpenseController::class, 'getMonthlyExpense']);
     Route::get('/get-current-month-incomes/{user_id}', [IncomeController::class, 'getCurrentMonthIncomes']);
     Route::get('/get-current-month-expense/{user_id}', [ExpenseController::class, 'getCurrentMonthExpenses']);
+    Route::get('/get-recent-activities/{user_id}', [RecentActivityController::class, 'getRecentActivities']);
 
     Route::put('/update-category/{category_id}/{user_id}', [CategoryController::class, 'updateCategory']);
     Route::put('/update-income/{income_id}/{user_id}', [IncomeController::class, 'updateIncome']);

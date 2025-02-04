@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Action\RecentActivities\GetRecentActivities;
 use App\Http\Requests\RecentActivityRequest;
 use App\Models\RecentActivity;
 use Illuminate\Http\JsonResponse;
@@ -14,5 +15,10 @@ class RecentActivityController extends Controller
     {
         $validateRequest = $request->validated();
         return response()->json($recentActivity($validateRequest));
+    }
+
+    public function getRecentActivities($user_id, GetRecentActivities $getRecentActivities): JsonResponse
+    {
+        return response()->json($getRecentActivities($user_id));
     }
 }
