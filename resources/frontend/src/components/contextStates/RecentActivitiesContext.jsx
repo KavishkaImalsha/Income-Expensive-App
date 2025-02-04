@@ -4,15 +4,16 @@ import customApi from "../api/customApi.jsx";
 export const RecentActivitiesContext = createContext();
 
 export const RecentActivitiesProvider = (({children}) => {
-    const [recentActivities, setRecentActivities] = useState(() => {
-        const savedActivities = localStorage.getItem("recentActivities");
-
-        return savedActivities ? JSON.parse(savedActivities) : []
-    })
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    const [recentActivities, setRecentActivities] = useState([])
 
     useEffect(() => {
-        localStorage.setItem('recentActivities', JSON.stringify(recentActivities))
-    }, [recentActivities]);
+        const fetchRecentActivities = async () => {
+            const savedActivities = await customApi.get(`http://127.0.0.1:8000/api/get-recent-activities/${user.uuid}`);
+            savedActivities ? setRecentActivities(savedActivities.data.recent_activities) : []
+        }
+        fetchRecentActivities()
+    }, []);
 
     const addRecentActivity = async (userId ,type, description) => {
         const data = {

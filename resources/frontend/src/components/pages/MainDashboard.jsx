@@ -71,12 +71,12 @@ const MainDashboard = () => {
                     <div className="border border-1 shadow-lg rounded-lg p-5 font-poppins">
                         <h1 className="text-xl">Recent Activities</h1>
                         {recentActivities.map((activity, index) => {
-                            const date = new Date(activity.timestamp)
+                            const date = new Date(activity.created_at)
                             const formatedDate = date.toLocaleDateString()
                             const formatedTime = date.toLocaleTimeString()
                             return(
                                 <div key={index} className="border-b-2 p-3 my-2">
-                                    <p className="text-sm">{activity.description}</p>
+                                    <p className="text-sm">{activity.activity}</p>
                                     <div className="flex justify-between">
                                         <p className={`${activity.type === "Income" ? "text-green-500" : "text-red-500"} text-sm`}>{activity.type}</p>
                                         <p className="text-sm text-gray-500">{`${formatedDate}, ${formatedTime}`}</p>
