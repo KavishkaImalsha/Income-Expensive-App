@@ -13,7 +13,6 @@ class DeleteExpense
             ->where('uuid', $user_id)
             ->first();
         $expense->delete();
-        Log::info($expense);
         return [
             "message" => "Expense is successfully deleted",
             "expense_category" => $expense->expense_category,

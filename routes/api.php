@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\RecentActivityController;
 use App\Http\Controllers\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/add-expense/{user_id}', [ExpenseController::class, 'addExpense']);
     Route::post('/add-category/{user_id}', [CategoryController::class, 'addCategory']);
     Route::post('/change-password', [RegisteredUserController::class, 'changePassword']);
+    Route::post('/add-recent-activity', [RecentActivityController::class, 'addRecentActivity']);
 
     Route::get('/get-categories/{user_id}', [CategoryController::class, 'getCategories']);
     Route::get('/edit-category/{category_id}/{user_id}', [CategoryController::class, 'editCategory']);

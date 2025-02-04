@@ -34,6 +34,7 @@ const AddCategories = () => {
         fetchCategories()
     }, []);
 
+
     const fetchCategories = async () => {
         const categoriesResponse = await customApi.get(`http://127.0.0.1:8000/api/get-categories/${user.uuid}`);
         if(categoriesResponse.status === 200){
@@ -55,7 +56,7 @@ const AddCategories = () => {
                 })
                 setIsModelVisible(false)
                 setResponseMessage(response.data.message)
-                addRecentActivity(formData.category_type, `Add ${formData.category_name} as ${formData.category_type} category type`)
+                addRecentActivity(user.uuid ,formData.category_type, `Add ${formData.category_name} as ${formData.category_type} category type`)
                 fetchCategories()
             }
         }catch (error) {
@@ -67,6 +68,7 @@ const AddCategories = () => {
         const deleteResponse = await customApi.delete(`http://127.0.0.1:8000/api/delete-category/${$category_id}/${user.uuid}`)
         if(deleteResponse.status === 200){
             setResponseMessage(deleteResponse.data.message)
+            addRecentActivity(user.uuid, "category", `Delete ${formData.category_name} category`)
             fetchCategories()
         }
     }

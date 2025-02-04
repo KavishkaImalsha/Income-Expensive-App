@@ -57,7 +57,7 @@ const AddIncome = () => {
                 })
                 setResponseMessage(addIncomeResponse.data.message)
                 setIsModelVisible(false)
-                addRecentActivity("Income", `Add ${incomeDetails.income_amount} to ${incomeDetails.income_category} income`)
+                addRecentActivity(user.uuid, "Income", `Add ${incomeDetails.income_amount} to ${incomeDetails.income_category} income`)
                 fetchAllIncomes()
             }
         }catch (error){
@@ -69,7 +69,7 @@ const AddIncome = () => {
         const deleteResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-income/${income_id}/${user.uuid}`)
         if (deleteResponse.status === 200){
             setResponseMessage(deleteResponse.data.message)
-            addRecentActivity("Income", `Delete Rs: ${deleteResponse.data.income_amount} from ${deleteResponse.data.income_category} income`)
+            addRecentActivity(user.uuid, "Income", `Delete Rs: ${deleteResponse.data.income_amount} from ${deleteResponse.data.income_category} income`)
             fetchAllIncomes()
         }
     }

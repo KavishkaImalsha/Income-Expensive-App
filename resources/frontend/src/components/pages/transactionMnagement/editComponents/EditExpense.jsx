@@ -19,6 +19,7 @@ const EditExpense = () => {
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
     const {addRecentActivity} = useContext(RecentActivitiesContext)
     const [expensesNames, setExpensesNames] = useState([])
+    const user = JSON.parse(sessionStorage.getItem('user'))
 
     useEffect(() => {
         fetchCategory()
@@ -26,11 +27,11 @@ const EditExpense = () => {
     }, []);
 
     const fetchCategory = async () => {
-        const category = await customApi.get('http://127.0.0.1:8000/api/get-categories');
+        const category = await customApi.get(`http://127.0.0.1:8000/api/get-categories/${user.uuid}`);
         setExpensesNames(category.data.data.filter(category => category.category_type === "Expense").map(expense => expense.category_name))
     }
     const fetchExpense = async () => {
-        const expenseResponse = await customApi.get(`http://127.0.0.1:8000/api/edit-expense/${expense_id.id}`)
+        const expenseResponse = await customApi.get(`http://127.0.0.1:8000/api/edit-expense/${expense_id.id}/${user.uuid}`)
         if(expenseResponse.status === 200){
             setExpense({
                 "expense_amount" : expenseResponse.data.expense.expense_amount,
@@ -42,11 +43,11 @@ const EditExpense = () => {
 
     const updateExpense = async (event) => {
         event.preventDefault()
-        const updateResponse = await customApi.put(`http://127.0.0.1:8000/api/update-expense/${expense_id.id}`, expense);
+        const updateResponse = await customApi.put(`http://127.0.0.1:8000/api/update-expense/${expense_id.id}/${user.uuid}`, expense);
 
         if(updateResponse.status === 200){
             setResponseMessage(updateResponse.data.message)
-            addRecentActivity("Expense", "Edit expense data")
+            addRecentActivity(user.uuid, "Expense", "Edit expense data")
             closeModel()
         }
     }

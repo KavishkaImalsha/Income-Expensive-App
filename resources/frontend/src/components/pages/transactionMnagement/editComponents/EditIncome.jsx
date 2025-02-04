@@ -20,6 +20,7 @@ const EditIncome = () => {
     const [incomeCategories, setIncomeCategories] = useState([])
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
     const {addRecentActivity} = useContext(RecentActivitiesContext)
+    const user = JSON.parse(sessionStorage.getItem('user'))
 
     useEffect(() => {
         getCategories()
@@ -27,7 +28,7 @@ const EditIncome = () => {
     }, []);
 
     const fetchIncome = async () => {
-        const response = await customApi.get(`http://127.0.0.1:8000/api/edit-income/${income_id.id}`)
+        const response = await customApi.get(`http://127.0.0.1:8000/api/edit-income/${income_id.id}/${user.uuid}`)
 
         if (response.status === 200){
             setIncome({
@@ -39,7 +40,7 @@ const EditIncome = () => {
     }
 
     const getCategories = async () => {
-        const category = await customApi.get('http://127.0.0.1:8000/api/get-categories')
+        const category = await customApi.get(`http://127.0.0.1:8000/api/get-categories/${user.uuid}`)
 
         if(category.status === 200){
             setIncomeCategories(category.data.data.filter((category) => {
@@ -50,10 +51,10 @@ const EditIncome = () => {
 
     const handelEditFormSubmit = async (event) => {
         event.preventDefault()
-        const submitResponse = await customApi.put(`http://127.0.0.1:8000/api/update-income/${income_id.id}`, income);
+        const submitResponse = await customApi.put(`http://127.0.0.1:8000/api/update-income/${income_id.id}/${user.uuid}`, income);
         if (submitResponse.status === 200){
             setResponseMessage(submitResponse.data.message);
-            addRecentActivity("Income", "Edit income data")
+            addRecentActivity(user.uuid,"Income", "Edit income data")
             closeModel()
         }
 

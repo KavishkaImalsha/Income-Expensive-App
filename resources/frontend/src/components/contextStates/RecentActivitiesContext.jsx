@@ -1,4 +1,5 @@
 import {createContext, useEffect, useState} from "react";
+import customApi from "../api/customApi.jsx";
 
 export const RecentActivitiesContext = createContext();
 
@@ -13,13 +14,18 @@ export const RecentActivitiesProvider = (({children}) => {
         localStorage.setItem('recentActivities', JSON.stringify(recentActivities))
     }, [recentActivities]);
 
-    const addRecentActivity = (type, description) => {
-        setRecentActivities((prevState) => [{
-            type : type,
-            description : description,
-            timestamp : new Date()
-        },
-            ...prevState.slice(0 , 4)])
+    const addRecentActivity = async (userId ,type, description) => {
+        const data = {
+            user_id: userId,
+            type: type,
+            activity: description
+        }
+
+        const recentActivitiesRes = await customApi.post('http://127.0.0.1:8000/api/add-recent-activity', data)
+
+        if(recentActivitiesRes.status){
+            console.log(recentActivitiesRes.data.message)
+        }
     }
 
     return (

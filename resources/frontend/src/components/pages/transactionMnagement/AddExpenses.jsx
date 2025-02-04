@@ -55,7 +55,7 @@ const AddExpenses = () => {
             if(submitResponse.status === 200){
                 setResponseMessage(submitResponse.data.message)
                 setIsModelVisible(false)
-                addRecentActivity("Expense", `Add Rs: ${expense.expense_amount} to ${expense.expense_category} expense`)
+                addRecentActivity(user.uuid, "Expense", `Add Rs: ${expense.expense_amount} to ${expense.expense_category} expense`)
                 fetchExpenses()
             }
         }catch (error){
@@ -67,7 +67,7 @@ const AddExpenses = () => {
         const deleteExpenseResponse = await customApi.delete(`http://127.0.0.1:8000/api/delete-expense/${expense_id}/${user.uuid}`);
         if(deleteExpenseResponse.status === 200){
             setResponseMessage(deleteExpenseResponse.data.message)
-            addRecentActivity("Expense", `Delete Rs: ${deleteExpenseResponse.data.expense_amount} from ${deleteExpenseResponse.data.expense_category} expense`)
+            addRecentActivity(user.uuid, "Expense", `Delete Rs: ${deleteExpenseResponse.data.expense_amount} from ${deleteExpenseResponse.data.expense_category} expense`)
             fetchExpenses()
         }
     }

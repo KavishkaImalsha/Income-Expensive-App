@@ -18,10 +18,11 @@ const EditCategory = () => {
     const {addRecentActivity} = useContext(RecentActivitiesContext)
     const [loading , setLoading] = useState(true)
     const [formData, setFormData] = useState({'category_name' : '', 'category_type' : ''})
+    const user = JSON.parse(sessionStorage.getItem('user'))
 
     useEffect(() => {
         const fetchCategory = async () => {
-           const responseCategory = await customApi.get(`http://127.0.0.1:8000/api/edit-category/${id.id}`)
+           const responseCategory = await customApi.get(`http://127.0.0.1:8000/api/edit-category/${id.id}/${user.uuid}`)
             if(responseCategory.status === 200){
                 setFormData({
                     'category_name' : responseCategory.data.data.category_name,
@@ -42,10 +43,10 @@ const EditCategory = () => {
 
     const handelFormSubmit = async (event) => {
         event.preventDefault()
-        const updateResponse = await customApi.put(`http://127.0.0.1:8000/api/update-category/${id.id}`, formData);
+        const updateResponse = await customApi.put(`http://127.0.0.1:8000/api/update-category/${id.id}/${user.uuid}`, formData);
         if (updateResponse.status === 200){
             setResponseMessage(updateResponse.data.message)
-            addRecentActivity(formData.category_type, `Edit ${formData.category_name} as ${formData.category_type}`)
+            addRecentActivity(user.uuid, formData.category_type, `Edit ${formData.category_name} as ${formData.category_type}`)
         }
         navigate('/add-categories')
     }
