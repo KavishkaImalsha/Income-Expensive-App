@@ -15,36 +15,38 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     use RefreshDatabase;
-    public function addCategory(CategoryRequest $request, AddCategory $addCategory): JsonResponse
+    public function addCategory(CategoryRequest $request, AddCategory $addCategory, $user_id): JsonResponse
     {
         $validatedRequest = $request->validated();
 
-        return response()->json($addCategory($validatedRequest));
+        return response()->json($addCategory($validatedRequest, $user_id));
     }
 
-    public function getCategories(): JsonResponse
+    public function getCategories($user_id): JsonResponse
     {
-        $allCategories = Category::all();
+        $allCategories = Category::where('uuid', '=', $user_id)->get();
         return response()->json(['data' => $allCategories]);
     }
 
-    public function editCategory($category_id): JsonResponse
+    public function editCategory($category_id, $user_id): JsonResponse
     {
-        $category = Category::find($category_id);
+        $category = Category::where('uuid', $user_id)
+            ->where('id', $category_id)
+            ->first();
         return response()->json([
             "data" => $category
         ]);
     }
 
-    public function updateCategory(CategoryRequest $request,UpdateCategory $updateCategory,$category_id): JsonResponse
+    public function updateCategory(CategoryRequest $request,UpdateCategory $updateCategory,$category_id,$user_id): JsonResponse
     {
         $validateRequest = $request->validated();
 
-        return response()->json($updateCategory($validateRequest, $category_id));
+        return response()->json($updateCategory($validateRequest, $category_id, $user_id));
     }
 
-    public function deleteCategory($category_id, DeleteCategory $deleteCategory): JsonResponse
+    public function deleteCategory($category_id, $user_id ,DeleteCategory $deleteCategory): JsonResponse
     {
-        return response()->json($deleteCategory($category_id));
+        return response()->json($deleteCategory($category_id, $user_id));
     }
 }

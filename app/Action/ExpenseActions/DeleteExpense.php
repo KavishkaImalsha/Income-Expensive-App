@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Log;
 
 class DeleteExpense
 {
-    public function __invoke($expense_id): array
+    public function __invoke($expense_id, $user_id): array
     {
-        $expense = Expense::find($expense_id);
+        $expense = Expense::where('id', $expense_id)
+            ->where('uuid', $user_id)
+            ->first();
         $expense->delete();
         Log::info($expense);
         return [

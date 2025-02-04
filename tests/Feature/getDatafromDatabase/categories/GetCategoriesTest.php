@@ -4,6 +4,7 @@ namespace Tests\Feature\getDatafromDatabase\categories;
 
 
 use App\Models\Category;
+use App\Models\RegisteredUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,9 +14,10 @@ class GetCategoriesTest extends TestCase
     public function test_retrieve_categories_from_database()
     {
         $this->withoutMiddleware();
-        $category = Category::factory()->create();
+        $user = RegisteredUser::factory()->make();
+        $category = Category::factory()->create(['uuid' => $user->uuid]);
 
-        $response = $this->getJson('api/get-categories');
+        $response = $this->getJson("api/get-categories/$user->uuid");
 
         $response->assertStatus(200);
         $response->assertJson([

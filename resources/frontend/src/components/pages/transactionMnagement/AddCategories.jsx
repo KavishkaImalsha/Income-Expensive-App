@@ -28,13 +28,14 @@ const AddCategories = () => {
         'category_type' : ""
     })
     const [categories , setCategories] = useState({'categories' : [], 'loading' : true})
+    const user = JSON.parse(sessionStorage.getItem('user'))
 
     useEffect(() => {
         fetchCategories()
     }, []);
 
     const fetchCategories = async () => {
-        const categoriesResponse = await customApi.get('http://127.0.0.1:8000/api/get-categories');
+        const categoriesResponse = await customApi.get(`http://127.0.0.1:8000/api/get-categories/${user.uuid}`);
         if(categoriesResponse.status === 200){
             setCategories({
                 'categories' : categoriesResponse.data.data,
@@ -46,7 +47,7 @@ const AddCategories = () => {
     const handelFormData = async (event) => {
         event.preventDefault()
         try{
-            const response = await customApi.post('http://127.0.0.1:8000/api/add-category', formData)
+            const response = await customApi.post(`http://127.0.0.1:8000/api/add-category/${user.uuid}`, formData)
             if(response.status === 200){
                 setFormData({
                     "category_name": "",
@@ -63,7 +64,7 @@ const AddCategories = () => {
     }
 
     const deleteCategory = async ($category_id) => {
-        const deleteResponse = await customApi.delete(`http://127.0.0.1:8000/api/delete-category/${$category_id}`)
+        const deleteResponse = await customApi.delete(`http://127.0.0.1:8000/api/delete-category/${$category_id}/${user.uuid}`)
         if(deleteResponse.status === 200){
             setResponseMessage(deleteResponse.data.message)
             fetchCategories()

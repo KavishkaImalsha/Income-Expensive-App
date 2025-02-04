@@ -12,6 +12,7 @@ class Expense extends Model
     protected $table = 'expenses';
 
     protected $fillable = [
+        'uuid',
       'expense_amount',
       'expense_category'
     ];

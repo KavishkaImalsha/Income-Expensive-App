@@ -6,9 +6,11 @@ use App\Models\Income;
 
 class DeleteIncome
 {
-    public function __invoke($income_id): array
+    public function __invoke($income_id, $user_id): array
     {
-        $income = Income::find($income_id);
+        $income = Income::where('id', $income_id)
+            ->where('uuid', $user_id)
+            ->first();
         $income->delete();
 
         return [

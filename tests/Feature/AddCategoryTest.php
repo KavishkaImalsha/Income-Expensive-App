@@ -2,6 +2,7 @@
 
 
 use App\Models\Category;
+use App\Models\RegisteredUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,9 +12,10 @@ class AddCategoryTest extends TestCase
     public function test_add_category_database_save()
     {
         $this->withoutMiddleware();
+        $user = RegisteredUser::factory()->make();
         $category = Category::factory()->make()->toArray();
 
-        $response = $this->postJson('api/add-category', $category);
+        $response = $this->postJson("api/add-category/$user->uuid", $category);
 
         $response->assertStatus(200);
         $response->assertSimilarJson([
@@ -28,9 +30,10 @@ class AddCategoryTest extends TestCase
     public function test_add_category_without_passing_category_name()
     {
         $this->withoutMiddleware();
+        $user = RegisteredUser::factory()->make();
         $category = Category::factory()->make(['category_name' => null])->toArray();
 
-        $response = $this->postJson('api/add-category', $category);
+        $response = $this->postJson("api/add-category/$user->uuid", $category);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors([
@@ -42,9 +45,10 @@ class AddCategoryTest extends TestCase
     public function test_add_category_without_passing_category_type()
     {
         $this->withoutMiddleware();
+        $user = RegisteredUser::factory()->make();
         $category = Category::factory()->make(['category_type' => null])->toArray();
 
-        $response = $this->postJson('api/add-category', $category);
+        $response = $this->postJson("api/add-category/$user->uuid", $category);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors([
@@ -56,12 +60,13 @@ class AddCategoryTest extends TestCase
     public function test_add_category_without_passing_any_data()
     {
         $this->withoutMiddleware();
+        $user = RegisteredUser::factory()->make();
         $category = Category::factory()->make([
             'category_name' => null,
             'category_type' => null
             ])->toArray();
 
-        $response = $this->postJson('api/add-category', $category);
+        $response = $this->postJson("api/add-category/$user->uuid", $category);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors([

@@ -4,6 +4,7 @@ namespace Tests\Feature\getDatafromDatabase\Expenses;
 
 
 use App\Models\Expense;
+use App\Models\RegisteredUser;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -14,8 +15,10 @@ class GetMonthlyExpensesAmountTest extends TestCase
     public function test_get_monthly_expense()
     {
         $this->withoutMiddleware();
+        $user = RegisteredUser::factory()->make();
         $expenses = Expense::factory()->count(5)->create([
             "created_at" => Carbon::create(2025, 1, rand(1, 30)),
+            'uuid' => $user->uuid
         ]);
         $currentYear = now()->year;
         $currentMonth = now()->month;
@@ -24,7 +27,7 @@ class GetMonthlyExpensesAmountTest extends TestCase
         });
         $getTotalMonthlyExpense = $getMonthlyExpense->sum('expense_amount');
 
-        $response = $this->getJson('api/get-monthly-expense');
+        $response = $this->getJson("api/get-monthly-expense/$user->uuid");
 
         $response->assertOk();
         $response->assertJson([

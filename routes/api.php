@@ -11,28 +11,28 @@ Route::post('/add-registered-user', [RegisteredUserController::class, 'addRegist
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/add-income', [IncomeController::class, 'addIncome']);
-    Route::post('/add-expense', [ExpenseController::class, 'addExpense']);
-    Route::post('/add-category', [CategoryController::class, 'addCategory']);
+    Route::post('/add-income/{user_id}', [IncomeController::class, 'addIncome']);
+    Route::post('/add-expense/{user_id}', [ExpenseController::class, 'addExpense']);
+    Route::post('/add-category/{user_id}', [CategoryController::class, 'addCategory']);
     Route::post('/change-password', [RegisteredUserController::class, 'changePassword']);
 
-    Route::get('/get-categories', [CategoryController::class, 'getCategories']);
-    Route::get('/edit-category/{category_id}', [CategoryController::class, 'editCategory']);
-    Route::get('/get-incomes', [IncomeController::class, 'getIncomes']);
-    Route::get('/edit-income/{income_id}', [IncomeController::class, 'editIncome']);
-    Route::get('/get-expenses', [ExpenseController::class, 'getExpenses']);
-    Route::get('/edit-expense/{expense_id}', [ExpenseController::class, 'editExpense']);
-    Route::get('/get-month-income',[IncomeController::class, 'getMonthIncome']);
-    Route::get('/get-monthly-expense', [ExpenseController::class, 'getMonthlyExpense']);
-    Route::get('/get-current-month-incomes', [IncomeController::class, 'getCurrentMonthIncomes']);
-    Route::get('/get-current-month-expense', [ExpenseController::class, 'getCurrentMonthExpenses']);
+    Route::get('/get-categories/{user_id}', [CategoryController::class, 'getCategories']);
+    Route::get('/edit-category/{category_id}/{user_id}', [CategoryController::class, 'editCategory']);
+    Route::get('/get-incomes/{user_id}', [IncomeController::class, 'getIncomes']);
+    Route::get('/edit-income/{income_id}/{user_id}', [IncomeController::class, 'editIncome']);
+    Route::get('/get-expenses/{user_id}', [ExpenseController::class, 'getExpenses']);
+    Route::get('/edit-expense/{expense_id}/{user_id}', [ExpenseController::class, 'editExpense']);
+    Route::get('/get-month-income/{user_id}',[IncomeController::class, 'getMonthIncome']);
+    Route::get('/get-monthly-expense/{user_id}', [ExpenseController::class, 'getMonthlyExpense']);
+    Route::get('/get-current-month-incomes/{user_id}', [IncomeController::class, 'getCurrentMonthIncomes']);
+    Route::get('/get-current-month-expense/{user_id}', [ExpenseController::class, 'getCurrentMonthExpenses']);
 
-    Route::put('/update-category/{category_id}', [CategoryController::class, 'updateCategory']);
-    Route::put('/update-income/{income_id}', [IncomeController::class, 'updateIncome']);
-    Route::put('/update-expense/{expense_id}', [ExpenseController::class, 'updateExpense']);
+    Route::put('/update-category/{category_id}/{user_id}', [CategoryController::class, 'updateCategory']);
+    Route::put('/update-income/{income_id}/{user_id}', [IncomeController::class, 'updateIncome']);
+    Route::put('/update-expense/{expense_id}/{user_id}', [ExpenseController::class, 'updateExpense']);
     Route::put('/change-user-details/{user_id}', [RegisteredUserController::class, 'changeUserDetails']);
 
-    Route::delete('/delete-category/{category_id}', [CategoryController::class, 'deleteCategory']);
-    Route::delete('/delete-income/{income_id}', [IncomeController::class, 'deleteIncome']);
-    Route::delete('/delete-expense/{expense_id}', [ExpenseController::class, 'deleteExpense']);
+    Route::delete('/delete-category/{category_id}/{user_id}', [CategoryController::class, 'deleteCategory']);
+    Route::delete('/delete-income/{income_id}/{user_id}', [IncomeController::class, 'deleteIncome']);
+    Route::delete('/delete-expense/{expense_id}/{user_id}', [ExpenseController::class, 'deleteExpense']);
 });

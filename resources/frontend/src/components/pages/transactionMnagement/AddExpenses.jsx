@@ -27,6 +27,7 @@ const AddExpenses = () => {
     const [expensesNames, setExpensesNames] = useState([])
     const [expense, setExpense] = useState({"expense_amount" : null, "expense_category" : null})
     const [expenses, setExpenses] = useState([])
+    const user = JSON.parse(sessionStorage.getItem('user'))
 
     useEffect(() => {
         fetchCategory()
@@ -34,13 +35,13 @@ const AddExpenses = () => {
     }, []);
 
     const fetchCategory = async () => {
-        const category = await customApi.get('http://127.0.0.1:8000/api/get-categories');
+        const category = await customApi.get(`http://127.0.0.1:8000/api/get-categories/${user.uuid}`);
         setExpensesNames(category.data.data.filter(category => category.category_type === "Expense").map(expense => expense.category_name))
         setLoading(false)
     }
 
     const fetchExpenses = async () => {
-        const getExpenseResponse = await customApi.get('http://127.0.0.1:8000/api/get-expenses')
+        const getExpenseResponse = await customApi.get(`http://127.0.0.1:8000/api/get-expenses/${user.uuid}`)
          if(getExpenseResponse.status === 200){
              setExpenses(getExpenseResponse.data.expenses)
              setLoading(false)
@@ -50,7 +51,7 @@ const AddExpenses = () => {
     const handelFormSubmit = async (event) => {
         event.preventDefault()
         try{
-            const submitResponse = await customApi.post('http://127.0.0.1:8000/api/add-expense', expense);
+            const submitResponse = await customApi.post(`http://127.0.0.1:8000/api/add-expense/${user.uuid}`, expense);
             if(submitResponse.status === 200){
                 setResponseMessage(submitResponse.data.message)
                 setIsModelVisible(false)
@@ -63,7 +64,7 @@ const AddExpenses = () => {
     }
 
     const deleteExpense = async (expense_id) => {
-        const deleteExpenseResponse = await customApi.delete(`http://127.0.0.1:8000/api/delete-expense/${expense_id}`);
+        const deleteExpenseResponse = await customApi.delete(`http://127.0.0.1:8000/api/delete-expense/${expense_id}/${user.uuid}`);
         if(deleteExpenseResponse.status === 200){
             setResponseMessage(deleteExpenseResponse.data.message)
             addRecentActivity("Expense", `Delete Rs: ${deleteExpenseResponse.data.expense_amount} from ${deleteExpenseResponse.data.expense_category} expense`)

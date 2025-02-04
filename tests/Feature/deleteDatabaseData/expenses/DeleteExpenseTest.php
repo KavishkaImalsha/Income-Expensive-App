@@ -4,6 +4,7 @@ namespace Tests\Feature\deleteDatabaseData\expenses;
 
 
 use App\Models\Expense;
+use App\Models\RegisteredUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,9 +15,10 @@ class DeleteExpenseTest extends TestCase
     public function test_delete_expense()
     {
         $this->withoutMiddleware();
-        $expense = Expense::factory()->create();
+        $user = RegisteredUser::factory()->make();
+        $expense = Expense::factory()->create(['uuid' => $user->uuid]);
 
-        $response = $this->deleteJson("api/delete-expense/$expense->id");
+        $response = $this->deleteJson("api/delete-expense/$expense->id/$user->uuid");
 
         $response->assertOk();
         $response->assertSimilarJson([

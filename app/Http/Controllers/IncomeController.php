@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Action\IncomeActions\AddIncome;
 use App\Action\IncomeActions\DeleteIncome;
 use App\Action\IncomeActions\EditIncome;
+use App\Action\IncomeActions\GetCurrentMonthIncomes;
 use App\Action\IncomeActions\GetCurrentMonthTotalIncome;
 use App\Action\IncomeActions\GetIncomes;
 use App\Action\IncomeActions\UpdateIncome;
@@ -17,45 +18,43 @@ use Illuminate\Validation\ValidationException;
 
 class IncomeController extends Controller
 {
-    public function addIncome(IncomeFormRequest $request, AddIncome $addIncome): JsonResponse
+    public function addIncome(IncomeFormRequest $request, AddIncome $addIncome, $user_id): JsonResponse
     {
         $validatedIncomeRequest = $request->validated();
 
-        return response()->json($addIncome($validatedIncomeRequest));
+        return response()->json($addIncome($validatedIncomeRequest, $user_id));
     }
 
-    public function getIncomes(GetIncomes $getIncomes)
+    public function getIncomes($user_id ,GetIncomes $getIncomes): JsonResponse
     {
-        return response()->json($getIncomes());
+        return response()->json($getIncomes($user_id));
     }
 
-    public function editIncome(EditIncome $editIncome, $income_id): JsonResponse
+    public function editIncome(EditIncome $editIncome, $income_id, $user_id): JsonResponse
     {
-        return response()->json($editIncome($income_id));
+        return response()->json($editIncome($income_id, $user_id));
     }
 
-    public function updateIncome(IncomeFormRequest $request, UpdateIncome $updateIncome, $income_id): JsonResponse
+    public function updateIncome(IncomeFormRequest $request, UpdateIncome $updateIncome, $income_id, $user_id): JsonResponse
     {
         $validatedRequest = $request->validated();
-        return response()->json($updateIncome($validatedRequest, $income_id));
+        return response()->json($updateIncome($validatedRequest, $income_id, $user_id));
 
     }
 
-    public function deleteIncome(DeleteIncome $deleteIncome, $income_id): JsonResponse
+    public function deleteIncome(DeleteIncome $deleteIncome, $income_id, $user_id): JsonResponse
     {
-        return response()->json($deleteIncome($income_id));
+        return response()->json($deleteIncome($income_id, $user_id));
     }
 
-    public function getMonthIncome(GetCurrentMonthTotalIncome $getCurrentMonthTotalIncome): JsonResponse
+    public function getMonthIncome(GetCurrentMonthTotalIncome $getCurrentMonthTotalIncome, $user_id): JsonResponse
     {
-        return response()->json($getCurrentMonthTotalIncome());
+        return response()->json($getCurrentMonthTotalIncome($user_id));
     }
 
-    public function getCurrentMonthIncomes(){
-        $currentYear = now()->year;
-        $currentMonth = now()->month;
+    public function getCurrentMonthIncomes(GetCurrentMonthIncomes $getCurrentMonthIncomes ,$user_id): JsonResponse
+    {
 
-        $currentMonthIncomes = Income::whereYear('created_at', $currentYear)->whereMonth('created_at', $currentMonth)->get();
-        return response()->json(["incomes" => $currentMonthIncomes]);
+        return response()->json($getCurrentMonthIncomes($user_id));
     }
 }

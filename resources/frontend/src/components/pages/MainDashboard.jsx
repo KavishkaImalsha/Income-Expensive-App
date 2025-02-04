@@ -9,7 +9,6 @@ import {RecentActivitiesContext} from "../contextStates/RecentActivitiesContext.
 import customApi from "../api/customApi.jsx";
 import {toast, ToastContainer} from "react-toastify";
 import {AuthUserContext} from "../contextStates/auth/AuthUserContext.jsx";
-import Settings from "./Settings.jsx";
 const MainDashboard = () => {
     const {recentActivities} = useContext(RecentActivitiesContext)
     const {isLogin, setIsLogin} = useContext(AuthUserContext)
@@ -19,13 +18,14 @@ const MainDashboard = () => {
     const [monthlyTotalExpense, setMonthlyTotalExpense] = useState(null)
     const [currentMonthExpense, setCurrentMonthExpenses] = useState([])
     const [title, setTitle] = useState("income")
+    const user = JSON.parse(sessionStorage.getItem('user'))
 
     useEffect(() => {
         const fetchTotalIncome = async () => {
-            const incomeAmountRes = await customApi.get('http://127.0.0.1:8000/api/get-month-income');
-            const expenseAmountRes = await customApi.get('http://127.0.0.1:8000/api/get-monthly-expense');
-            const incomesRes = await customApi.get('http://127.0.0.1:8000/api/get-current-month-incomes')
-            const expenseRes = await customApi.get('http://127.0.0.1:8000/api/get-current-month-expense')
+            const incomeAmountRes = await customApi.get(`http://127.0.0.1:8000/api/get-month-income/${user.uuid}`);
+            const expenseAmountRes = await customApi.get(`http://127.0.0.1:8000/api/get-monthly-expense/${user.uuid}`);
+            const incomesRes = await customApi.get(`http://127.0.0.1:8000/api/get-current-month-incomes/${user.uuid}`)
+            const expenseRes = await customApi.get(`http://127.0.0.1:8000/api/get-current-month-expense/${user.uuid}`)
             setCurrentMonthIncomes(incomesRes.data.incomes)
             setCurrentMonthExpenses(expenseRes.data.expenses)
             setMonthlyTotalIncome(incomeAmountRes.data.total_income)

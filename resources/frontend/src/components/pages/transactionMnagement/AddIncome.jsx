@@ -26,10 +26,11 @@ const AddIncome = () => {
     const [allIncomes, setAllIncomes] = useState({"incomes" : [], "loading": true})
     const {responseMessage, setResponseMessage} = useContext(MessageContext)
     const {addRecentActivity} = useContext(RecentActivitiesContext)
+    const user = JSON.parse(sessionStorage.getItem('user'))
 
     useEffect(()=> {
         const getCategories = async () => {
-            const category = await customApi.get('http://127.0.0.1:8000/api/get-categories')
+            const category = await customApi.get(`http://127.0.0.1:8000/api/get-categories/${user.uuid}`)
 
             if(category.status === 200){
                 setIncomeCategories(category.data.data.filter((category) => {
@@ -42,13 +43,13 @@ const AddIncome = () => {
     }, []);
 
     const fetchAllIncomes = async () => {
-        setAllIncomes(await customApi.get('http://127.0.0.1:8000/api/get-incomes'))
+        setAllIncomes(await customApi.get(`http://127.0.0.1:8000/api/get-incomes/${user.uuid}`))
     }
 
     const handelFormData =async (event) => {
         event.preventDefault()
         try{
-            const addIncomeResponse = await customApi.post('http://127.0.0.1:8000/api/add-income', incomeDetails)
+            const addIncomeResponse = await customApi.post(`http://127.0.0.1:8000/api/add-income/${user.uuid}`, incomeDetails)
             if(addIncomeResponse.status === 200){
                 setIncomeDetails({
                     'income_amount' : null,
@@ -65,7 +66,7 @@ const AddIncome = () => {
     }
 
     const deleteIncome = async (income_id) => {
-        const deleteResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-income/${income_id}`)
+        const deleteResponse = await axios.delete(`http://127.0.0.1:8000/api/delete-income/${income_id}/${user.uuid}`)
         if (deleteResponse.status === 200){
             setResponseMessage(deleteResponse.data.message)
             addRecentActivity("Income", `Delete Rs: ${deleteResponse.data.income_amount} from ${deleteResponse.data.income_category} income`)

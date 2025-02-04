@@ -6,9 +6,9 @@ use App\Models\Expense;
 
 class GetExpenses
 {
-    public function __invoke(): array
+    public function __invoke($user_id): array
     {
-        $expenses = Expense::all();
+        $expenses = Expense::where('uuid', '=', $user_id)->get();
 
         return [
             "expenses" => $expenses

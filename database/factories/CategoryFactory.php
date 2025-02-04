@@ -21,7 +21,7 @@ class CategoryFactory extends Factory
     {
         return [
             'category_name' => $this->faker->randomElement(['Salary', 'Online Money', 'Home', 'Foods', 'Transport']),
-            'category_type' => $this->faker->randomElement(['Income', 'Expense'])
+            'category_type' => $this->faker->randomElement(['Income', 'Expense']),
         ];
     }
 }

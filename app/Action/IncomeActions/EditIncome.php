@@ -6,9 +6,11 @@ use App\Models\Income;
 
 class EditIncome
 {
-    public function __invoke($income_id)
+    public function __invoke($income_id, $user_id)
     {
-        $income = Income::find($income_id);
+        $income = Income::where('uuid', $user_id)
+            ->where('id', $income_id)
+            ->first();
 
         return [
             "income" => $income

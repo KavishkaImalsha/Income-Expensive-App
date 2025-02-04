@@ -3,6 +3,7 @@
 namespace Tests\Feature\deleteDatabaseData\incomes;
 
 use App\Models\Income;
+use App\Models\RegisteredUser;
 use Tests\TestCase;
 
 class DeleteIncomeTest extends TestCase
@@ -10,9 +11,10 @@ class DeleteIncomeTest extends TestCase
     public function test_delete_income()
     {
         $this->withoutMiddleware();
-        $income = Income::factory()->create();
+        $user = RegisteredUser::factory()->make();
+        $income = Income::factory()->create(['uuid' => $user->uuid]);
 
-        $response = $this->deleteJson("api/delete-income/$income->id");
+        $response = $this->deleteJson("api/delete-income/$income->id/$user->uuid");
 
         $response->assertOk();
         $response->assertSimilarJson([

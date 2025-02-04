@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Action\IncomeActions;
+namespace App\Action\ExpenseActions;
 
-use App\Models\Income;
+use App\Models\Expense;
 
-class GetCurrentMonthIncomes
+class GetCurrentMonthExpenses
 {
     public function __invoke($user_id): array
     {
         $currentYear = now()->year;
         $currentMonth = now()->month;
 
-        $currentMonthIncomes = Income::whereYear('created_at', $currentYear)
+        $currentMonthIncomes = Expense::whereYear('created_at', $currentYear)
             ->whereMonth('created_at', $currentMonth)
             ->where('uuid', $user_id)
             ->get();
 
         return [
-            "incomes" => $currentMonthIncomes
+            "expenses" => $currentMonthIncomes
         ];
     }
 }

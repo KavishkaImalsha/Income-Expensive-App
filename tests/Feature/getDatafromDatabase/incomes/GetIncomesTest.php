@@ -5,6 +5,7 @@ namespace Tests\Feature\getDatafromDatabase\incomes;
 
 
 use App\Models\Income;
+use App\Models\RegisteredUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,9 +15,10 @@ class GetIncomesTest extends TestCase
     public function test_get_incomes_from_database()
     {
         $this->withoutMiddleware();
-        $incomes = Income::factory()->create();
+        $user = RegisteredUser::factory()->make();
+        $incomes = Income::factory()->create(['uuid' => $user->uuid]);
 
-        $response = $this->getJson('api/get-incomes');
+        $response = $this->getJson("api/get-incomes/$user->uuid");
 
         $response->assertOk();
         $response->assertJson([

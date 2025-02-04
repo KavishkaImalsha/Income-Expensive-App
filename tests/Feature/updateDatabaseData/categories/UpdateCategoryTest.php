@@ -3,6 +3,7 @@
 namespace Tests\Feature\updateDatabaseData\categories;
 
 use App\Models\Category;
+use App\Models\RegisteredUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,10 +14,11 @@ class UpdateCategoryTest extends TestCase
     public function test_update_category()
     {
         $this->withoutMiddleware();
-        $exitingCategory = Category::factory()->create();
+        $user = RegisteredUser::factory()->make();
+        $exitingCategory = Category::factory()->create(['uuid' => $user->uuid]);
         $newCategory = Category::factory()->make()->toArray();
 
-        $response = $this->putJson("api/update-category/$exitingCategory->id", $newCategory);
+        $response = $this->putJson("api/update-category/$exitingCategory->id/$user->uuid", $newCategory);
 
         $response->assertOk();
         $response->assertStatus(200);
