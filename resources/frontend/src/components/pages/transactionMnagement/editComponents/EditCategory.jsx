@@ -48,7 +48,7 @@ const EditCategory = () => {
             setResponseMessage(updateResponse.data.message)
             addRecentActivity(user.uuid, formData.category_type, `Edit ${formData.category_name} as ${formData.category_type}`)
         }
-        navigate('/add-categories')
+        navigate('/dashboard/add-categories')
     }
 
     const closeModel = () => {
