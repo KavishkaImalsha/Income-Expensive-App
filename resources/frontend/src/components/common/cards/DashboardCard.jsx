@@ -1,0 +1,22 @@
+const DashboardCard = ({image, title, textColor, amount}) => {
+    const formatAmount = (amount) => {
+        const number =  Number(amount).toFixed(2)
+        return new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }).format(number)
+    }
+    return(
+        <>
+            <div
+                className="max-w-sm font-poppins p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <img src={image} className="w-12 h-12 m-auto text-gray-500 dark:text-gray-400 mb-3"
+                     alt="image"/>
+                <h1 className="text-2xl text-center">{title}</h1>
+                <p className={`text-2xl font-bold text-center text-${textColor}-500`}>Rs: {formatAmount(amount)}</p>
+            </div>
+        </>
+    )
+}
+
+export default DashboardCard
